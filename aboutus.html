@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z'/%3E%3Cpath d='M12 2v2M12 20v2M2 12h2M20 12h2'/%3E%3C/svg%3E">
     <title>CartoAntique | Discover the World Through Time</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
@@ -274,7 +275,7 @@
         <!-- Hero Section: Our Story -->
         <header class="relative pt-32 pb-40 overflow-hidden">
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?auto=format&fit=crop&q=80&w=2000" alt="Antique Map Background" class="w-full h-full object-cover filter brightness-[0.4] dark:brightness-[0.2]">
+                <img src="assets/abouthero1" alt="Antique Map Background" class="w-full h-full object-cover filter brightness-[0.4] dark:brightness-[0.2]">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-slate-950 to-transparent"></div>
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center" x-data="{ appear: false }" x-init="setTimeout(() => appear = true, 100)">
@@ -310,7 +311,7 @@
             </div>
         </section>
 
-        <!-- Featured In (Trust Banner) -->
+      
        <!-- Interactive Logo Cloud Section -->
 <section class="py-12 border-y border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ reveal: false }" x-intersect="reveal = true">
@@ -416,7 +417,7 @@
             </div>
         </section>
 
-        <!-- What We Offer -->
+       
        <!-- Interactive Offers Section -->
 <section class="py-16 md:py-24 bg-white dark:bg-slate-950 transition-colors duration-300 overflow-hidden" 
          x-data="{ reveal: false }" 
@@ -510,7 +511,7 @@
                     <!-- Adaptive Frame Color -->
                     <div class="overflow-hidden rounded-[2.5rem] border-8 border-white dark:border-slate-800 shadow-2xl transform transition-all duration-1000" 
                          :class="show ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
-                        <img src="https://images.unsplash.com/photo-1544168190-79c17527004f?auto=format&fit=crop&q=80&w=800" 
+                        <img src="assets/abtboy1" 
                              alt="Founder" 
                              class="w-full h-[350px] md:h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
                     </div>
@@ -565,7 +566,7 @@
                     <!-- Expert 1 -->
                     <div class="group text-center" x-data="{ show: false }" x-intersect="show = true">
                         <div class="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 group-hover:border-primary transition-colors duration-500 transform" :class="show ? 'scale-100 opacity-100' : 'scale-90 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400" alt="Dr. Thomas Vance" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img src="assets/abtt1" alt="Dr. Thomas Vance" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Dr. Thomas Vance</h3>
                         <p class="text-primary text-sm font-bold uppercase tracking-widest mb-3">Head Archivist</p>
@@ -574,7 +575,7 @@
                     <!-- Expert 2 -->
                     <div class="group text-center" x-data="{ show: false }" x-intersect="show = true">
                         <div class="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 group-hover:border-primary transition-colors duration-500 transform delay-100" :class="show ? 'scale-100 opacity-100' : 'scale-90 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" alt="Sarah Lin" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img src="assets/abtt2" alt="Sarah Lin" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Sarah Lin</h3>
                         <p class="text-primary text-sm font-bold uppercase tracking-widest mb-3">Acquisitions Director</p>
@@ -583,7 +584,7 @@
                     <!-- Expert 3 -->
                     <div class="group text-center" x-data="{ show: false }" x-intersect="show = true">
                         <div class="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 group-hover:border-primary transition-colors duration-500 transform delay-200" :class="show ? 'scale-100 opacity-100' : 'scale-90 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Marcus O'Dea" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img src="assets/abtt3" alt="Marcus O'Dea" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Marcus O'Dea</h3>
                         <p class="text-primary text-sm font-bold uppercase tracking-widest mb-3">Restoration Specialist</p>
@@ -592,7 +593,7 @@
                     <!-- Expert 4 -->
                     <div class="group text-center" x-data="{ show: false }" x-intersect="show = true">
                         <div class="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden border-4 border-slate-100 dark:border-slate-800 group-hover:border-primary transition-colors duration-500 transform delay-300" :class="show ? 'scale-100 opacity-100' : 'scale-90 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400" alt="Elena Rostova" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                            <img src="assets/abtt4" alt="Elena Rostova" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Elena Rostova</h3>
                         <p class="text-primary text-sm font-bold uppercase tracking-widest mb-3">Client Advisory</p>

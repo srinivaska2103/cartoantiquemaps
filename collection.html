@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z'/%3E%3Cpath d='M12 2v2M12 20v2M2 12h2M20 12h2'/%3E%3C/svg%3E">
     <title>CartoAntique | Discover the World Through Time</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
@@ -355,68 +356,172 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Grid Container -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" 
-             x-data="{ 
-                loaded: false,
-                items: [
-                    { id: '1526778548025-fa2f459cd5c1', title: 'Great World Atlas', price: '$950', era: '1680s', tag: 'World' },
-                    { id: '1502134249126-9f3755a50d78', title: 'Celestial Hemisphere', price: '$820', era: '1710s', tag: 'Celestial' },
-                    { id: '1581922819941-6ab31ab79da1', title: 'Mediterranean Chart', price: '$640', era: '1820s', tag: 'Nautical' },
-                    { id: '1446776811953-b23d57bd21aa', title: 'Stellar Constellations', price: '$1,100', era: '1650s', tag: 'Discovery' },
-                    { id: '1544168190-79c17527004f', title: 'London City Plan', price: '$480', era: '1890s', tag: 'Urban' },
-                    { id: '1524661135-423995f22d0b', title: 'The New World', price: '$2,400', era: '1590s', tag: 'Rare' }
-                ]
-             }" 
-             x-init="setTimeout(() => loaded = true, 200)">
+       <!-- Antique Map Collection Grid -->
+<section class="py-16 md:py-24 bg-white dark:bg-slate-950 transition-colors duration-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Standard Tailwind Grid Logic -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
             
-            <template x-for="(item, index) in items" :key="item.id">
-                <div class="group relative bg-slate-50 dark:bg-slate-800 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl transition-all duration-700 transform"
-                     :class="loaded ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'"
-                     :style="'transition-delay: ' + (index * 150) + 'ms'">
-                    
-                    <!-- Unique Image Wrapper -->
-                    <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
-                        <img :src="'https://images.unsplash.com/photo-' + item.id + '?auto=format&fit=crop&q=80&w=600'" 
-                             :alt="item.title" 
-                             class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
-                        
-                        <!-- Hover Overlay -->
-                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                            <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-primary hover:text-white active:scale-95">
-                                View Archives
-                            </button>
-                        </div>
-
-                        <!-- Badge -->
-                        <div class="absolute top-5 left-5">
-                            <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-primary rounded-xl shadow-lg border border-primary/10" x-text="item.tag">
-                            </span>
-                        </div>
+            <!-- Card 1: World Atlas -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-500">
+                <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
+                    <img src="assets/indexhero" 
+                         alt="Great World Atlas" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-amber-400 hover:text-white">View Archives</button>
                     </div>
-
-                    <!-- Description Area -->
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-primary transition-colors leading-tight pr-4" x-text="item.title"></h3>
-                            <span class="text-primary font-black text-lg" x-text="item.price"></span>
-                        </div>
-                        
-                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">
-                            Verified authentic print from the <span x-text="item.era"></span>. Carefully preserved with museum-grade archival protection.
-                        </p>
-                        
-                        <!-- Metadata -->
-                        <div class="pt-5 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                            <span class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                                Origin Verified
-                            </span>
-                            <span x-text="item.era"></span>
-                        </div>
+                    <div class="absolute top-5 left-5">
+                        <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 rounded-xl shadow-lg border border-amber-500/10">World</span>
                     </div>
                 </div>
-            </template>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-tight pr-4">Great World Atlas</h3>
+                        <span class="text-amber-500 font-black text-lg">$950</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">Verified authentic print from the 1680s. Carefully preserved with museum-grade archival protection.</p>
+                    <div class="pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                        <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Origin Verified</span>
+                        <span>1680s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Celestial -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-500">
+                <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
+                    <img src="assets/lestial Hemisphere" 
+                         alt="Celestial Hemisphere" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-amber-400 hover:text-white">View Archives</button>
+                    </div>
+                    <div class="absolute top-5 left-5">
+                        <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 rounded-xl shadow-lg border border-amber-500/10">Celestial</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-tight pr-4">Celestial Hemisphere</h3>
+                        <span class="text-amber-500 font-black text-lg">$820</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">Verified authentic print from the 1710s. Carefully preserved with museum-grade archival protection.</p>
+                    <div class="pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                        <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Origin Verified</span>
+                        <span>1710s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Nautical -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-500">
+                <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
+                    <img src="assets/Mediterranean Chart" 
+                         alt="Mediterranean Chart" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-amber-400 hover:text-white">View Archives</button>
+                    </div>
+                    <div class="absolute top-5 left-5">
+                        <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 rounded-xl shadow-lg border border-amber-500/10">Nautical</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-tight pr-4">Mediterranean Chart</h3>
+                        <span class="text-amber-500 font-black text-lg">$640</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">Verified authentic print from the 1820s. Carefully preserved with museum-grade archival protection.</p>
+                    <div class="pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                        <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Origin Verified</span>
+                        <span>1820s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Discovery -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-500">
+                <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
+                    <img src="assets/Stellar Constellations" 
+                         alt="Stellar Constellations" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-amber-400 hover:text-white">View Archives</button>
+                    </div>
+                    <div class="absolute top-5 left-5">
+                        <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 rounded-xl shadow-lg border border-amber-500/10">Discovery</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-tight pr-4">Stellar Constellations</h3>
+                        <span class="text-amber-500 font-black text-lg">$1,100</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">Verified authentic print from the 1650s. Carefully preserved with museum-grade archival protection.</p>
+                    <div class="pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                        <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Origin Verified</span>
+                        <span>1650s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Urban -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-500">
+                <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
+                    <img src="assets/London City Plan" 
+                         alt="London City Plan" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-amber-400 hover:text-white">View Archives</button>
+                    </div>
+                    <div class="absolute top-5 left-5">
+                        <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 rounded-xl shadow-lg border border-amber-500/10">Urban</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-tight pr-4">London City Plan</h3>
+                        <span class="text-amber-500 font-black text-lg">$480</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">Verified authentic print from the 1890s. Carefully preserved with museum-grade archival protection.</p>
+                    <div class="pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                        <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Origin Verified</span>
+                        <span>1890s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Rare -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl transition-all duration-500">
+                <div class="relative aspect-[4/5] overflow-hidden bg-slate-200">
+                    <img src="assets/The New World" 
+                         alt="The New World" 
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.4] group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <button class="px-7 py-3 bg-white text-slate-900 font-bold rounded-2xl transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500 shadow-xl hover:bg-amber-400 hover:text-white">View Archives</button>
+                    </div>
+                    <div class="absolute top-5 left-5">
+                        <span class="px-4 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 rounded-xl shadow-lg border border-amber-500/10">Rare</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-xl text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors leading-tight pr-4">The New World</h3>
+                        <span class="text-amber-500 font-black text-lg">$2,400</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-6">Verified authentic print from the 1590s. Carefully preserved with museum-grade archival protection.</p>
+                    <div class="pt-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                        <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>Origin Verified</span>
+                        <span>1590s</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </div>
+</section>
 
         <!-- Footer Action -->
         <div class="mt-20 text-center">

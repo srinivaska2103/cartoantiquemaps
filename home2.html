@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z'/%3E%3Cpath d='M12 2v2M12 20v2M2 12h2M20 12h2'/%3E%3C/svg%3E">
     <title>CartoAntique | Own a Piece of the World's Past</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
@@ -185,7 +186,7 @@
                         <div class="relative w-full max-w-2xl mx-auto lg:ml-auto lg:mr-0 aspect-[3/4] md:aspect-[4/5] overflow-hidden transform transition-all duration-[1500ms] shadow-2xl" 
                              style="border-radius: 20rem 20rem 0 0;"
                              :class="show ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200" alt="Antique Map" class="absolute inset-0 w-full h-full object-cover sepia-[.4] hover:scale-105 transition-transform duration-[2000ms]">
+                            <img src="assets/home2hero" alt="Antique Map" class="absolute inset-0 w-full h-full object-cover sepia-[.4] hover:scale-105 transition-transform duration-[2000ms]">
                             <div class="absolute inset-0 border-[1rem] border-[#F8F5EF] dark:border-slate-950 pointer-events-none" style="border-radius: 20rem 20rem 0 0;"></div>
                         </div>
                         
@@ -247,7 +248,7 @@
                     
                     <!-- Large Feature Image -->
                     <div class="md:col-span-12 lg:col-span-8 group relative overflow-hidden h-[60vh] md:h-[70vh] cursor-pointer rounded-[2rem] shadow-xl" x-data="{ reveal: false }" x-intersect.once="reveal = true" :class="reveal ? 'opacity-100' : 'opacity-0'" style="transition: opacity 1.5s ease;">
-                        <img src="https://images.unsplash.com/photo-1580130281320-0ef0754f2bf7?auto=format&fit=crop&q=80&w=1600" alt="Exploration Era" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 sepia-[.3]">
+                        <img src="assets/Exploration Era" alt="Exploration Era" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 sepia-[.3]">
                         <div class="absolute inset-0 bg-slate-900/30 group-hover:bg-transparent transition-colors duration-700"></div>
                         <div class="absolute bottom-10 left-10 text-white z-10 p-4 bg-slate-900/40 backdrop-blur-sm rounded-xl">
                             <p class="text-xs tracking-[0.3em] uppercase mb-2">01 / Collection</p>
@@ -260,7 +261,7 @@
                     <div class="md:col-span-12 lg:col-span-4 flex flex-col gap-8 lg:gap-12">
                         
                         <div class="group relative overflow-hidden h-64 md:h-80 lg:flex-1 cursor-pointer rounded-[2rem] shadow-xl" x-data="{ reveal: false }" x-intersect.once="reveal = true" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'" style="transition: all 1s ease 200ms;">
-                            <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&q=80&w=800" alt="Architectural Cities" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 sepia-[.3]">
+                            <img src="assets/Architectural Cities" alt="Architectural Cities" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 sepia-[.3]">
                             <div class="absolute inset-0 bg-slate-900/30 group-hover:bg-transparent transition-colors duration-700"></div>
                             <div class="absolute bottom-6 left-6 text-white z-10 p-3 bg-slate-900/40 backdrop-blur-sm rounded-xl">
                                 <p class="text-xs tracking-[0.3em] uppercase mb-1">02 / Collection</p>
@@ -269,7 +270,7 @@
                         </div>
 
                         <div class="group relative overflow-hidden h-64 md:h-80 lg:flex-1 cursor-pointer rounded-[2rem] shadow-xl" x-data="{ reveal: false }" x-intersect.once="reveal = true" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'" style="transition: all 1s ease 400ms;">
-                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800" alt="Ocean & Navigation" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 sepia-[.3]">
+                            <img src="assets/ean & Navigation" alt="Ocean & Navigation" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 sepia-[.3]">
                             <div class="absolute inset-0 bg-slate-900/30 group-hover:bg-transparent transition-colors duration-700"></div>
                             <div class="absolute bottom-6 left-6 text-white z-10 p-3 bg-slate-900/40 backdrop-blur-sm rounded-xl">
                                 <p class="text-xs tracking-[0.3em] uppercase mb-1">03 / Collection</p>
@@ -285,43 +286,202 @@
             </div>
         </section>
 
-        <!-- 4. Visual Story Section (Offset Grid) -->
-        <section class="py-32 bg-white dark:bg-slate-900 overflow-hidden">
-            <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
-                    
-                    <!-- Offset Image -->
-                    <div class="lg:col-span-6 relative" x-data="{ reveal: false }" x-intersect.once="reveal = true">
-                        <div class="aspect-[4/5] overflow-hidden transform transition-all duration-[1500ms] rounded-[2rem] shadow-2xl" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1502485019198-a625bd53ceb7?auto=format&fit=crop&q=80&w=1000" alt="Map details" class="w-full h-full object-cover sepia-[.3]">
-                        </div>
-                        <!-- Small overlapping accent image -->
-                        <div class="absolute -bottom-10 -right-10 w-2/3 aspect-square overflow-hidden shadow-2xl border-[1rem] border-white dark:border-slate-900 hidden md:block transform transition-all duration-1000 delay-500 rounded-full" :class="reveal ? 'translate-x-0 opacity-100' : 'translate-x-20 opacity-0'">
-                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800" alt="Detail" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    
-                    <!-- Text Block -->
-                    <div class="lg:col-span-5 lg:col-start-8" x-data="{ reveal: false }" x-intersect.once="reveal = true">
-                        <div class="transform transition-all duration-1000" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                            <p class="text-primary font-bold uppercase tracking-widest text-sm mb-6">More Than a Map</p>
-                            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
-                                A Conversation <br>Piece.
-                            </h2>
-                            <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
-                                Antique maps invite curiosity. They spark conversations about how the world was once seen—filled with unknown lands, evolving borders, and artistic interpretations of reality.
-                            </p>
-                            <div class="border-l-4 border-primary pl-6 py-2">
-                                <p class="text-2xl text-slate-800 dark:text-slate-200">
-                                    "Owning one is not just about decor—it’s about connection to the human journey."
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+       <!-- Testimonials Section -->
+<section class="py-16 md:py-24 bg-white dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                What Our <span class="text-primary">Collectors Say</span>
+            </h2>
+            <p class="text-slate-500 dark:text-slate-400 font-medium">Stories from those who brought history home.</p>
+        </div>
 
+        <!-- Testimonials Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            
+            <!-- Testimonial 1 -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 p-8 md:p-10 rounded-[2.5rem] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 border border-transparent hover:border-primary/20">
+                <!-- Quote Icon -->
+                <div class="absolute -top-5 left-10 w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                </div>
+
+                <div class="flex flex-col h-full">
+                    <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300  leading-relaxed mb-8">
+                        “Beautiful piece of history—the level of detail in the 17th-century engraving is breathtaking. It adds incredible character and a sense of wisdom to my office space.”
+                    </p>
+                    
+                    <div class="flex items-center gap-4 mt-auto">
+                        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
+                            <img src="assets/t1" alt="Collector" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white">James Arrington</h4>
+                            <p class="text-xs uppercase tracking-widest text-primary font-bold">Curator & Scholar</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+
+            <!-- Testimonial 2 -->
+            <div class="group relative bg-slate-50 dark:bg-slate-900 p-8 md:p-10 rounded-[2.5rem] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 border border-transparent hover:border-primary/20">
+                <!-- Quote Icon -->
+                <div class="absolute -top-5 left-10 w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                </div>
+
+                <div class="flex flex-col h-full">
+                    <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300  leading-relaxed mb-8">
+                        “Found the perfect gift for my husband who loves travel and history. The packaging was archival-grade and the certificate of authenticity provided such peace of mind.”
+                    </p>
+                    
+                    <div class="flex items-center gap-4 mt-auto">
+                        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
+                            <img src="assets/t2" alt="Collector" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white">Elena Rodriguez</h4>
+                            <p class="text-xs uppercase tracking-widest text-primary font-bold">Private Collector</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Trust Badge -->
+        <div class="mt-16 flex justify-center flex-wrap gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+            <span class="font-bold text-xl tracking-tighter">MUSEUM ARCHIVE</span>
+            <span class="font-bold text-xl tracking-tighter">HISTORY GUILD</span>
+            <span class="font-bold text-xl tracking-tighter">GLOBAL CARTOGRAPHY</span>
+        </div>
+    </div>
+</section>
+<!-- Pricing Section -->
+<section class="py-16 md:py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-300" x-data="{ annual: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+                Choose Your <span class="text-primary italic">Discovery Plan</span>
+            </h2>
+            
+            <!-- Plan Toggle -->
+            <div class="flex items-center justify-center gap-4">
+                <span class="text-sm font-bold" :class="!annual ? 'text-primary' : 'text-slate-400'">Monthly</span>
+                <button @click="annual = !annual" 
+                        class="relative w-14 h-7 bg-slate-200 dark:bg-slate-700 rounded-full p-1 transition-colors focus:outline-none ring-2 ring-transparent focus:ring-primary/30">
+                    <div class="w-5 h-5 bg-white dark:bg-primary rounded-full shadow-md transform transition-transform duration-300"
+                         :class="annual ? 'translate-x-7' : 'translate-x-0'"></div>
+                </button>
+                <span class="text-sm font-bold" :class="annual ? 'text-primary' : 'text-slate-400'">
+                    Yearly <span class="ml-1 text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded-full uppercase tracking-tighter">Save 20%</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Pricing Cards: Adjusted for 3 columns on Tablet (md) and Desktop (lg) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 items-stretch">
+            
+            <!-- Tier 1: Explorer -->
+            <div class="group bg-white dark:bg-slate-800 p-6 lg:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                <h3 class="text-xl font-bold mb-2">Explorer</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">For casual history lovers.</p>
+                
+                <div class="mb-6">
+                    <span class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white" x-text="annual ? '$0' : '$0'"></span>
+                    <span class="text-slate-400 font-bold">/mo</span>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Browse Public Archives
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Standard Previews
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-400 line-through shrink-0">
+                        High-Res Downloads
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mt-auto">
+                    Start Browsing
+                </button>
+            </div>
+
+            <!-- Tier 2: Collector (Popular) -->
+            <div class="relative group bg-white dark:bg-slate-800 p-6 lg:p-10 rounded-[2.5rem] border-2 border-primary shadow-2xl shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col">
+                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg whitespace-nowrap">
+                    Most Popular
+                </div>
+                
+                <h3 class="text-xl font-bold mb-2">Collector</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">For serious enthusiasts.</p>
+                
+                <div class="mb-6">
+                    <span class="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white" x-text="annual ? '$19' : '$24'"></span>
+                    <span class="text-slate-400 font-bold">/mo</span>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Unlimited High-Res
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Rare Notifications
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        10% Print Discount
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-sm shadow-xl shadow-primary/30 hover:bg-secondary transition-all active:scale-95 mt-auto">
+                    Become Collector
+                </button>
+            </div>
+
+            <!-- Tier 3: Archivist -->
+            <div class="group bg-white dark:bg-slate-800 p-6 lg:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                <h3 class="text-xl font-bold mb-2">Archivist</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">For institutions.</p>
+                
+                <div class="mb-6">
+                    <span class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white" x-text="annual ? '$49' : '$59'"></span>
+                    <span class="text-slate-400 font-bold">/mo</span>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Team Access
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Historical API
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Priority Support
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mt-auto">
+                    Contact Sales
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
 
         <!-- 5. Trust / Newsletter (Dark minimal box) -->
         <section class="py-32 bg-[#F8F5EF] dark:bg-slate-950">
@@ -387,7 +547,7 @@
                         <!-- Image Side (Interactive Map Graphic) -->
                         <div class="w-full lg:w-2/5 h-64 lg:h-full relative overflow-hidden hidden md:block">
                             <div class="absolute inset-0 bg-gradient-to-l from-slate-900/80 to-transparent z-10 lg:hidden"></div>
-                            <img src="https://images.unsplash.com/photo-1548345666-a57139a4dd1c?auto=format&fit=crop&q=80&w=800" 
+                            <img src="assets/detail" 
                                  alt="Antique Map Detail" 
                                  class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 transform scale-110 hover:scale-100">
                             
