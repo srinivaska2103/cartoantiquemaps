@@ -280,11 +280,12 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center" x-data="{ appear: false }" x-init="setTimeout(() => appear = true, 100)">
                 <span class="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-widest text-primary bg-white/10 backdrop-blur-md rounded-full uppercase border border-white/20 transform transition-all duration-700" :class="appear ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">Our Story</span>
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 text-white leading-tight transform transition-all duration-700 delay-100" :class="appear ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                    Every Map Holds a <br><span class="text-primary italic">Story Waiting</span>
+                    Every Map Holds a <br><span class="text-primary">Story Waiting</span>
                 </h1>
-                <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-medium leading-relaxed transform transition-all duration-700 delay-200" :class="appear ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                    At CartoAntique, we believe that every map holds a story waiting to be rediscovered. What began as a passion for historical cartography has grown into a carefully curated collection of antique maps from across the world.
-                </p>
+                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-medium leading-relaxed transform transition-all duration-700 delay-200" 
+   :class="appear ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+    At CartoAntique, we believe that every map holds a story waiting to be rediscovered. What began as a passion for historical cartography has grown into a carefully curated collection of antique maps from across the world.
+</p>
             </div>
         </header>
 
@@ -310,18 +311,58 @@
         </section>
 
         <!-- Featured In (Trust Banner) -->
-        <section class="py-10 border-y border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ reveal: false }" x-intersect="reveal = true">
-                <p class="text-center text-sm font-bold text-slate-500 uppercase tracking-widest mb-6 transform transition-all duration-700" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'">Trusted By & Featured In</p>
-                <div class="flex flex-wrap justify-center gap-10 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all duration-700 transform" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'">
-                    <span class="text-xl font-bold font-serif tracking-tighter hover:text-primary transition-colors cursor-pointer">THE ANTIQUARIAN</span>
-                    <span class="text-xl font-bold font-serif tracking-tighter hover:text-primary transition-colors cursor-pointer">GLOBAL HISTORIC</span>
-                    <span class="text-xl font-bold font-serif tracking-tighter hover:text-primary transition-colors cursor-pointer">CARTOGRAPHY TODAY</span>
-                    <span class="text-xl font-bold font-serif tracking-tighter hover:text-primary transition-colors cursor-pointer">MUSEUM WEEKLY</span>
-                </div>
-            </div>
-        </section>
+       <!-- Interactive Logo Cloud Section -->
+<section class="py-12 border-y border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ reveal: false }" x-intersect="reveal = true">
+        
+        <!-- Animated Subtitle -->
+        <p class="text-center text-[10px] md:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em] mb-10 transform transition-all duration-1000 delay-100" 
+           :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'">
+            Trusted By & Featured In
+        </p>
 
+        <!-- Interactive Logo Container -->
+        <div class="relative group">
+            <!-- Continuous Marquee for Mobile / Flex Grid for Desktop -->
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 lg:gap-24 transition-all duration-1000 delay-300 transform"
+                 :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
+                
+                <!-- Logo 1 -->
+                <div class="flex flex-col items-center group/logo cursor-pointer">
+                    <span class="text-lg md:text-2xl font-bold font-serif tracking-tighter text-slate-400 dark:text-slate-600 group-hover/logo:text-primary group-hover/logo:-translate-y-2 transition-all duration-300">
+                        THE ANTIQUARIAN
+                    </span>
+                    <div class="w-0 group-hover/logo:w-full h-0.5 bg-primary transition-all duration-500 mt-1"></div>
+                </div>
+
+                <!-- Logo 2 -->
+                <div class="flex flex-col items-center group/logo cursor-pointer">
+                    <span class="text-lg md:text-2xl font-bold font-serif tracking-tighter text-slate-400 dark:text-slate-600 group-hover/logo:text-primary group-hover/logo:-translate-y-2 transition-all duration-300">
+                        GLOBAL HISTORIC
+                    </span>
+                    <div class="w-0 group-hover/logo:w-full h-0.5 bg-primary transition-all duration-500 mt-1"></div>
+                </div>
+
+                <!-- Logo 3 -->
+                <div class="flex flex-col items-center group/logo cursor-pointer">
+                    <span class="text-lg md:text-2xl font-bold font-serif tracking-tighter text-slate-400 dark:text-slate-600 group-hover/logo:text-primary group-hover/logo:-translate-y-2 transition-all duration-300">
+                        CARTOGRAPHY TODAY
+                    </span>
+                    <div class="w-0 group-hover/logo:w-full h-0.5 bg-primary transition-all duration-500 mt-1"></div>
+                </div>
+
+                <!-- Logo 4 -->
+                <div class="flex flex-col items-center group/logo cursor-pointer">
+                    <span class="text-lg md:text-2xl font-bold font-serif tracking-tighter text-slate-400 dark:text-slate-600 group-hover/logo:text-primary group-hover/logo:-translate-y-2 transition-all duration-300">
+                        MUSEUM WEEKLY
+                    </span>
+                    <div class="w-0 group-hover/logo:w-full h-0.5 bg-primary transition-all duration-500 mt-1"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
         <!-- Timeline of Map History -->
         <section class="py-16 md:py-24 bg-slate-50 dark:bg-slate-950 overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -376,87 +417,142 @@
         </section>
 
         <!-- What We Offer -->
-        <section class="py-16 md:py-24 bg-white dark:bg-slate-900">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">What We <span class="text-primary">Offer</span></h2>
-                    <p class="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto">Each piece is selected for its historical significance, artistic detail, and uniqueness.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-                    
-                    <div class="group p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 text-center flex flex-col justify-center min-h-[200px]">
-                        <div class="text-5xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">🌍</div>
-                        <h3 class="font-bold text-slate-900 dark:text-white mb-2">Rare World Maps</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Centuries of global discovery.</p>
-                    </div>
-                    
-                    <div class="group p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 text-center flex flex-col justify-center min-h-[200px]">
-                        <div class="text-5xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">🏙️</div>
-                        <h3 class="font-bold text-slate-900 dark:text-white mb-2">Vintage City Plans</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Urban history mapped out.</p>
-                    </div>
-                    
-                    <div class="group p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 text-center flex flex-col justify-center min-h-[200px]">
-                        <div class="text-5xl mb-4 transform group-hover:scale-125 group-hover:-rotate-12 transition-all duration-300">⚓</div>
-                        <h3 class="font-bold text-slate-900 dark:text-white mb-2">Nautical Charts</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Used by early explorers.</p>
-                    </div>
-                    
-                    <div class="group p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 text-center flex flex-col justify-center min-h-[200px] sm:col-span-2 lg:col-span-1">
-                        <div class="text-5xl mb-4 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">🌌</div>
-                        <h3 class="font-bold text-slate-900 dark:text-white mb-2">Celestial Maps</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Depicting ancient astronomy.</p>
-                    </div>
-                    
-                    <div class="group p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-800 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 text-center flex flex-col justify-center min-h-[200px] sm:col-span-2 lg:col-span-1">
-                        <div class="text-5xl mb-4 transform group-hover:scale-125 group-hover:-rotate-12 transition-all duration-300">📜</div>
-                        <h3 class="font-bold text-slate-900 dark:text-white mb-2">Historical Atlases</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Bound engravings & books.</p>
-                    </div>
+       <!-- Interactive Offers Section -->
+<section class="py-16 md:py-24 bg-white dark:bg-slate-950 transition-colors duration-300 overflow-hidden" 
+         x-data="{ reveal: false }" 
+         x-intersect.once="reveal = true">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-16 transform transition-all duration-1000"
+             :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+                What We <span class="text-primary">Offer</span>
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 font-medium max-w-2xl mx-auto text-sm md:text-base">
+                Each piece is selected for its historical significance, artistic detail, and uniqueness.
+            </p>
+        </div>
 
-                </div>
+        <!-- Grid: Optimized for 360px, Mobile, Tablet, and Desktop -->
+        <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
+            
+            <!-- Category Card 1 -->
+            <div class="group relative p-6 md:p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-primary/10 text-center flex flex-col justify-center min-h-[180px] md:min-h-[220px] transform"
+                 :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'"
+                 style="transition-delay: 100ms;">
+                <div class="text-5xl mb-4 transition-transform duration-500 group-hover:scale-125 group-hover:rotate-12 select-none">🌍</div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-2 text-sm md:text-base">Rare World Maps</h3>
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight"> global discovery.</p>
+                <!-- Subtle Shine Effect -->
+                <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
             </div>
-        </section>
+            
+            <!-- Category Card 2 -->
+            <div class="group relative p-6 md:p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-primary/10 text-center flex flex-col justify-center min-h-[180px] md:min-h-[220px] transform"
+                 :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'"
+                 style="transition-delay: 200ms;">
+                <div class="text-5xl mb-4 transition-transform duration-500 group-hover:scale-125 group-hover:rotate-12 select-none">🏙️</div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-2 text-sm md:text-base">Vintage City Plans</h3>
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight">Urban history mapped out.</p>
+                <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            </div>
+            
+            <!-- Category Card 3 -->
+            <div class="group relative p-6 md:p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-primary/10 text-center flex flex-col justify-center min-h-[180px] md:min-h-[220px] transform"
+                 :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'"
+                 style="transition-delay: 300ms;">
+                <div class="text-5xl mb-4 transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-12 select-none">⚓</div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-2 text-sm md:text-base">Nautical Charts</h3>
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight">Used by early explorers.</p>
+                <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            </div>
+            
+            <!-- Category Card 4 -->
+            <div class="group relative p-6 md:p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-primary/10 text-center flex flex-col justify-center min-h-[180px] md:min-h-[220px] transform"
+                 :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'"
+                 style="transition-delay: 400ms;">
+                <div class="text-5xl mb-4 transition-transform duration-500 group-hover:scale-125 group-hover:rotate-12 select-none">🌌</div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-2 text-sm md:text-base">Celestial Maps</h3>
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight">Ancient astronomy.</p>
+                <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            </div>
+            
+            <!-- Category Card 5 -->
+            <div class="group relative p-6 md:p-8 bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-primary/10 text-center flex flex-col justify-center min-h-[180px] md:min-h-[220px] transform"
+                 :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'"
+                 style="transition-delay: 500ms;">
+                <div class="text-5xl mb-4 transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-12 select-none">📜</div>
+                <h3 class="font-bold text-slate-900 dark:text-white mb-2 text-sm md:text-base">Antique Atlases</h3>
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight">Bound engravings.</p>
+                <div class="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-primary/0 via-primary/5 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
         <!-- Founder Story & Sourcing Process -->
-        <section class="py-16 md:py-32 bg-slate-900 text-white overflow-hidden relative">
-            <div class="absolute inset-0 opacity-20 pointer-events-none">
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')]"></div>
-            </div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-                    <!-- Image Side -->
-                    <div class="w-full lg:w-1/2" x-data="{ show: false }" x-intersect="show = true">
-                        <div class="relative">
-                            <div class="overflow-hidden rounded-[2.5rem] border-8 border-slate-800 transform transition-all duration-1000 shadow-2xl" :class="show ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
-                                <img src="https://images.unsplash.com/photo-1544168190-79c17527004f?auto=format&fit=crop&q=80&w=800" alt="Founder" class="w-full h-[400px] md:h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                            </div>
-                            <div class="absolute -bottom-8 -right-4 md:-right-8 bg-primary text-slate-900 p-6 md:p-8 rounded-3xl max-w-xs shadow-2xl transform transition-transform duration-500 hover:scale-105 hidden sm:block">
-                                <svg class="w-8 h-8 mb-3 opacity-50" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-                                <p class="font-bold text-sm md:text-base leading-relaxed">"Every scratch, every fold, every faded ink line on an antique map is a testament to human endeavor."</p>
-                                <p class="text-xs uppercase tracking-widest mt-4 font-extrabold opacity-70">A. H. Cartographer, Founder</p>
-                            </div>
-                        </div>
+       <!-- Sourcing Process Section (Adaptive Theme) -->
+<section class="py-16 md:py-32 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-500 overflow-hidden relative">
+    
+    <!-- Pattern Overlay (Subtle in both modes) -->
+    <div class="absolute inset-0 opacity-[0.03] dark:opacity-20 pointer-events-none">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/pinstriped-suit.png')]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            
+            <!-- Image Side -->
+            <div class="w-full lg:w-1/2" x-data="{ show: false }" x-intersect.once="show = true">
+                <div class="relative">
+                    <!-- Adaptive Frame Color -->
+                    <div class="overflow-hidden rounded-[2.5rem] border-8 border-white dark:border-slate-800 shadow-2xl transform transition-all duration-1000" 
+                         :class="show ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
+                        <img src="https://images.unsplash.com/photo-1544168190-79c17527004f?auto=format&fit=crop&q=80&w=800" 
+                             alt="Founder" 
+                             class="w-full h-[350px] md:h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
                     </div>
-                    <!-- Content Side -->
-                    <div class="w-full lg:w-1/2">
-                        <span class="text-primary font-bold uppercase tracking-widest text-xs mb-3 block">Behind The Scenes</span>
-                        <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight">Our Sourcing <span class="text-primary">Process</span></h2>
-                        <div class="space-y-6 text-slate-300">
-                            <p class="text-lg leading-relaxed">Finding true cartographic treasures requires patience and expertise. We travel across continents, working directly with private collectors, historical estates, and specialized auctions to discover pieces that have been hidden away for decades.</p>
-                            
-                            <div class="bg-slate-800/50 border border-slate-700 p-8 rounded-3xl mt-8 hover:bg-slate-800 transition-colors">
-                                <h4 class="text-primary font-bold mb-3 flex items-center gap-3 text-lg">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    Certification Details
-                                </h4>
-                                <p class="text-sm md:text-base leading-relaxed">Every map is carefully sourced, verified, and preserved. A certified historian examines paper grain, watermark, printing technique, and hand-coloring style to ensure absolute authenticity before it enters our collection.</p>
-                            </div>
-                        </div>
+
+                    <!-- Floating Quote Box (Responsive for 360px) -->
+                    <div class="absolute -bottom-6 -right-2 md:-bottom-8 md:-right-8 bg-primary text-slate-900 p-5 md:p-8 rounded-[2rem] max-w-[260px] md:max-w-xs shadow-2xl transform transition-transform duration-500 hover:scale-105 hidden xs:block">
+                        <svg class="w-6 h-6 md:w-8 md:h-8 mb-2 opacity-30" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+                        <p class="font-bold text-xs md:text-base leading-relaxed">"Every scratch, every fold, every faded ink line on an antique map is a testament to human endeavor."</p>
+                        <p class="text-[10px] uppercase tracking-widest mt-3 font-extrabold opacity-60">A. H. Cartographer</p>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <!-- Content Side -->
+            <div class="w-full lg:w-1/2 mt-8 lg:mt-0">
+                <span class="text-primary font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs mb-3 block">Behind The Scenes</span>
+                
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-6 md:mb-8 leading-tight">
+                    Our Sourcing <span class="text-primary">Process</span>
+                </h2>
+
+                <div class="space-y-6">
+                    <p class="text-base md:text-lg leading-relaxed text-slate-600 dark:text-slate-300 font-medium">
+                        Finding true cartographic treasures requires patience and expertise. We travel across continents, working directly with private collectors and historical estates to discover pieces hidden for decades.
+                    </p>
+                    
+                    <!-- Certification Box (Adaptive Colors) -->
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 md:p-8 rounded-[2rem] shadow-sm hover:shadow-md transition-all duration-300">
+                        <h4 class="text-primary font-bold mb-3 flex items-center gap-3 text-base md:text-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Expert Certification
+                        </h4>
+                        <p class="text-sm md:text-base leading-relaxed text-slate-500 dark:text-slate-400">
+                            Every map is verified by a certified historian. We examine paper grain, watermarks, and printing techniques to ensure absolute authenticity before any piece enters our archives.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
         <!-- Meet The Experts -->
         <section class="py-16 md:py-24 bg-white dark:bg-slate-900">
@@ -543,29 +639,87 @@
         </section>
 
         <!-- Global Impact / Statistics -->
-        <section class="py-16 bg-primary text-slate-900 relative overflow-hidden">
-            <div class="absolute inset-0 bg-white/10 mix-blend-overlay"></div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" x-data="{ show: false }" x-intersect="show = true">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 text-center md:divide-x divide-slate-900/20">
-                    <div class="transform transition-all duration-700 p-4" :class="show ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                        <p class="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md">10k+</p>
-                        <p class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-80">Maps Preserved</p>
-                    </div>
-                    <div class="transform transition-all duration-700 delay-100 p-4" :class="show ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                        <p class="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md">50+</p>
-                        <p class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-80">Countries Shipped</p>
-                    </div>
-                    <div class="transform transition-all duration-700 delay-200 p-4" :class="show ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                        <p class="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md">15th</p>
-                        <p class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-80">Century Oldest Map</p>
-                    </div>
-                    <div class="transform transition-all duration-700 delay-300 p-4" :class="show ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                        <p class="text-4xl md:text-5xl font-extrabold mb-2 text-white drop-shadow-md">25</p>
-                        <p class="text-xs md:text-sm font-bold uppercase tracking-widest opacity-80">Museum Partners</p>
-                    </div>
+        <!-- Interactive Statistics Section -->
+<section class="py-12 md:py-20 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 relative overflow-hidden transition-colors duration-300" 
+         x-data="{ 
+            reveal: false,
+            animateValue(id, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    this[id] = Math.floor(progress * (end - start) + start);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            },
+            maps: 0,
+            countries: 0,
+            century: 0,
+            museums: 0
+         }" 
+         x-intersect.once="
+            reveal = true; 
+            animateValue('maps', 0, 10, 1500); 
+            animateValue('countries', 0, 50, 1500);
+            animateValue('century', 0, 15, 1500);
+            animateValue('museums', 0, 25, 1500);
+         ">
+    
+    <!-- Decorative Background Elements -->
+    <div class="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- 
+            Grid Layout:
+            360px: 2 columns
+            Desktop: 4 columns with adaptive dividers
+        -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-12 lg:gap-y-0 text-center lg:divide-x divide-slate-200 dark:divide-slate-800">
+            
+            <!-- Stat 1: Maps -->
+            <div class="transform transition-all duration-700 p-2 md:p-4" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                <div class="flex items-baseline justify-center">
+                    <p class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary" x-text="maps + 'k'"></p>
+                    <span class="text-primary text-2xl font-extrabold ml-1">+</span>
                 </div>
+                <p class="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-3">Maps Preserved</p>
             </div>
-        </section>
+
+            <!-- Stat 2: Countries -->
+            <div class="transform transition-all duration-700 delay-100 p-2 md:p-4" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                <div class="flex items-baseline justify-center">
+                    <p class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white" x-text="countries"></p>
+                    <span class="text-slate-900 dark:text-white text-2xl font-extrabold ml-1">+</span>
+                </div>
+                <p class="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-3">Countries Shipped</p>
+            </div>
+
+            <!-- Stat 3: Oldest Map -->
+            <div class="transform transition-all duration-700 delay-200 p-2 md:p-4" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                <div class="flex items-baseline justify-center">
+                    <p class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white" x-text="century"></p>
+                    <span class="text-slate-900 dark:text-white text-xl font-extrabold ml-1 uppercase">th</span>
+                </div>
+                <p class="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-3">Oldest Map Era</p>
+            </div>
+
+            <!-- Stat 4: Partners -->
+            <div class="transform transition-all duration-700 delay-300 p-2 md:p-4" :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                <div class="flex items-baseline justify-center">
+                    <p class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary" x-text="museums"></p>
+                </div>
+                <p class="text-[10px] md:text-xs lg:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mt-3">Museum Partners</p>
+            </div>
+
+        </div>
+    </div>
+</section>
 
         <!-- Why Antique Maps Matter & Our Vision -->
         <section class="py-16 md:py-24 bg-white dark:bg-slate-900">
@@ -582,7 +736,7 @@
                             </div>
                             <h3 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6">Why Antique Maps Matter</h3>
                             <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-6">
-                                Antique maps are more than decorative items—they are historical documents. They reflect the knowledge, imagination, and exploration of earlier times. Many early maps even included artistic elements like sea creatures and mythical lands, making them both educational and visually captivating.
+                                Antique maps are more than decorative items—they are historical documents. They reflect the knowledge, imagination, and exploration of earlier times. Many early maps even included artistic elements like sea creatures.
                             </p>
                         </div>
                         <div>
@@ -648,21 +802,64 @@
         </section>
 
         <!-- Call to Action -->
-        <section class="py-20 md:py-32 bg-primary text-slate-900 text-center relative overflow-hidden">
-            <div class="absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none">
-                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover">
+       <!-- Interactive Box CTA Section -->
+<section class="py-16 md:py-24 bg-white dark:bg-slate-900 transition-colors duration-500 overflow-hidden">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        
+        <!-- The Floating Box Container -->
+        <div class="relative group p-8 md:p-20 bg-slate-50 dark:bg-slate-800 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden"
+             x-data="{ reveal: false }" 
+             x-intersect.once="reveal = true">
+            
+            <!-- Animated Background Shapes (Interactive Box Decor) -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700"></div>
+                <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/15 transition-colors duration-700"></div>
             </div>
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" x-data="{ pop: false }" x-intersect="pop = true">
-                <h2 class="text-4xl md:text-6xl font-extrabold mb-8 transform transition-all duration-700" :class="pop ? 'scale-100 opacity-100' : 'scale-90 opacity-0'">Join Our Journey</h2>
-                <p class="text-xl md:text-2xl font-medium mb-12 max-w-2xl mx-auto transform transition-all duration-700 delay-100 leading-relaxed" :class="pop ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                    Explore our collection and become part of a story that spans centuries. Whether you're decorating your space or building a collection, CartoAntique is here to guide you through history—one map at a time.
+
+            <!-- Content Container -->
+            <div class="relative z-10 text-center max-w-3xl mx-auto">
+                
+                <!-- Animated Headline -->
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight transform transition-all duration-1000"
+                    :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                    Join Our <span class="text-primary">Journey</span>
+                </h2>
+                
+                <!-- Animated Paragraph -->
+                <p class="text-base md:text-xl font-medium text-slate-500 dark:text-slate-400 mb-10 leading-relaxed transform transition-all duration-1000 delay-200"
+                   :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                    Explore our collection and become part of a story that spans centuries. Whether you're decorating your space or building a collection, CartoAntique is here to guide you through history.
                 </p>
-                <a href="collection.html" class="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-slate-800 transition-all shadow-2xl transform hover:scale-105 duration-300 delay-200" :class="pop ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
-                    Explore the Collection
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                </a>
+
+                <!-- Interactive CTA Button Group -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 transform transition-all duration-1000 delay-400"
+                     :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                    
+                    <!-- Primary Button (Responsive for 360px) -->
+                    <a href="collection.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-primary hover:bg-secondary text-white dark:text-slate-900 px-8 py-4 md:px-10 md:py-4.5 rounded-2xl font-bold text-base md:text-lg shadow-lg shadow-primary/20 transition-all active:scale-95 group/btn">
+                        Explore Collection
+                        <svg class="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+
+                    <!-- Secondary Link -->
+                    <a href="contact.html" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors text-base">
+                        Speak to an Expert
+                    </a>
+                </div>
             </div>
-        </section>
+
+            <!-- Corner Interactive Detail -->
+            <div class="absolute top-6 right-8 opacity-10 group-hover:opacity-30 transition-opacity">
+                <svg class="w-12 h-12 rotate-45" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
 
     </main>
 
