@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" x-data="loginApp()" :dir="direction" :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login | CartoAntique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            /* Prevent scrolling on all devices */
+            overflow: hidden; 
+            touch-action: none;
+        }
+        [x-cloak] { display: none !important; }
+        
+        /* Ensure the main container handles internal height for small screens if needed */
+        .login-view {
+            height: 100dvh;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#EAB308',
+                        secondary: '#A16207',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 px-4 md:px-8 py-4 flex justify-between items-center bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-sm">
+        <!-- Logo: Brand name always visible -->
+       <a href="index.html">
+                                 <div class="flex items-center gap-3 group cursor-pointer">
+    <!-- Compass Rose Logo -->
+    <div class="relative w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+        </svg>
+        <!-- Decorative inner ring -->
+        <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+    </div>
+    
+    <!-- Text Logo -->
+    <div class="flex flex-col leading-tight">
+        <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+            Carto<span class="text-primary">Antique</span>
+        </span>
+      
+    </div>
+</div>
+                 </a>
+
+        <!-- Controls -->
+        <div class="flex items-center gap-2">
+            <button @click="toggleDir()" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm font-bold text-[10px] border border-slate-200 dark:border-slate-700">
+                <span x-text="direction.toUpperCase()"></span>
+            </button>
+            <button @click="toggleTheme()" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                <template x-if="!darkMode">
+                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2"></path></svg>
+                </template>
+                <template x-if="darkMode">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2"></path></svg>
+                </template>
+            </button>
+        </div>
+    </header>
+
+    <!-- Login Container: Using login-view class to lock height -->
+    <main class="login-view flex flex-col justify-center items-center px-4">
+        <div class="w-full max-w-[400px] bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 p-8 md:p-10 scale-90 sm:scale-100 transition-transform">
+            
+            <div class="text-center mb-6">
+                <h1 class="text-2xl md:text-3xl font-bold mb-1">Welcome Back</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium">Sign in to your historical archive.</p>
+            </div>
+
+            <!-- Form -->
+            <form action="#" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1.5 ml-1">Email Address</label>
+                    <input type="email" placeholder="name@example.com" required
+                        class="w-full px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-primary outline-none text-sm transition-all">
+                </div>
+
+                <div x-data="{ show: false }">
+                    <label class="block text-xs font-bold mb-1.5 ml-1">Password</label>
+                    <div class="relative">
+                        <input :type="show ? 'text' : 'password'" placeholder="••••••••" required
+                            class="w-full px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-primary outline-none text-sm transition-all">
+                        <button type="button" @click="show = !show" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary">
+                            <svg x-show="!show" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-width="2"></path></svg>
+                            <svg x-show="show" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88L4.573 4.573m0 0l14.854 14.854" stroke-width="2"></path></svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 px-1">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="w-3.5 h-3.5 rounded border-slate-300 text-primary focus:ring-primary">
+                            <span class="text-[10px] md:text-xs font-bold text-slate-500">Remember me</span>
+                        </label>
+                        <a href="#" class="text-[10px] md:text-xs font-bold text-primary hover:underline">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 md:py-4 rounded-2xl shadow-lg transition-all active:scale-95 text-sm">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Social Login -->
+            <div class="mt-6">
+                <div class="relative flex items-center mb-4">
+                    <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                    <span class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Or</span>
+                    <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <button class="flex items-center justify-center py-2.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.908 3.152-1.928 4.176-1.288 1.288-3.312 2.552-6.892 2.552-5.548 0-10.024-4.504-10.024-10.096s4.476-10.096 10.024-10.096c3.136 0 5.432 1.24 7.12 2.848l2.128-2.128c-2.312-2.2-5.352-3.848-9.248-3.848-7.392 0-13.432 6.136-13.432 13.56s6.04 13.56 13.432 13.56c3.992 0 7.008-1.312 9.408-3.808 2.48-2.48 3.248-5.96 3.248-8.68 0-.84-.064-1.632-.2-2.328h-12.44z"/></svg>
+                    </button>
+                    <button class="flex items-center justify-center py-2.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </button>
+                    <button class="flex items-center justify-center py-2.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.05 20.28c-.96.95-2.12 1.45-3.48 1.45-1.5 0-2.6-.5-3.5-1.35-.9-.85-1.95-1.35-3.3-1.35-1.4 0-2.45.5-3.35 1.35-1 .85-2 .13-3.3-1.35-1.4-.95-2.6-2.5-3.5-4.65-1.15-2.7-.4-4.85 1-6.1s2.85-1.65 4.35-1.65c1.15 0 2 .35 2.6.75.5.35 1.15.75 2.1.75.95 0 1.6-.4 2.1-.75.6-.4 1.45-.75 2.6-.75s2.7.5 3.95 1.75c-1.35 1.6-1.35 3.55 0 5.1 1 1.1 2.35 1.5 3.55.9.35 1.15-.35 2.45-1.25 3.4zM12.03 5.07c0-1.5 1.25-2.75 2.75-2.75s2.75 1.25 2.75 2.75-1.25 2.75-2.75 2.75-2.75-1.25-2.75-2.75z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <p class="text-xs font-medium text-slate-500">
+                    New? <a href="regeister.html" class="text-primary font-bold hover:underline">Create account</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function loginApp() {
+            return {
+                darkMode: localStorage.getItem('dark') === 'true',
+                direction: localStorage.getItem('dir') || 'ltr',
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('dark', this.darkMode);
+                },
+                toggleDir() {
+                    this.direction = this.direction === 'ltr' ? 'rtl' : 'ltr';
+                    localStorage.setItem('dir', this.direction);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
