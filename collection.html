@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" x-data="mapApp()" :dir="direction" :class="{ 'dark': darkMode }">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CartoAntique | Discover the World Through Time</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#EAB308', // Yellow-500
+                        secondary: '#A16207', // Yellow-900
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800"
+        x-data="{ 
+        open: false, 
+        activePage: window.location.pathname.split('/').pop() || 'index.html' 
+     }">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 md:h-20 items-center">
+
+                <!-- Logo & Brand (Responsive sizing for 360px) -->
+                <a href="index.html" class="flex items-center gap-2 md:gap-3 group cursor-pointer shrink-0">
+                    <div
+                        class="relative w-10 h-10 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8 text-white"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z" />
+                            <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
+                        </svg>
+                        <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+                    </div>
+
+                    <div class="flex flex-col leading-tight">
+                        <span
+                            class="text-lg md:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                            Carto<span class="text-primary">Antique</span>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav (Hidden below 1024px) -->
+                <div class="hidden lg:flex items-center lg:gap-4 xl:gap-8">
+                    <template
+                        x-for="link in ['index.html', 'home2.html', 'aboutus.html', 'collection.html', 'pricing.html', 'contact.html']"
+                        :key="link">
+                        <a :href="link"
+                            :class="activePage === link ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
+                            class="font-semibold text-sm xl:text-base transition-colors duration-200 capitalize"
+                            x-text="link.replace('.html', '').replace('index', 'home')"></a>
+                    </template>
+                </div>
+
+                <!-- Utility Buttons (Theme/LTR/Login) -->
+                <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+                    <button @click="toggleDir()"
+                        class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs hover:bg-primary/10 transition-colors">
+                        <span x-text="direction === 'ltr' ? 'LTR' : 'RTL'"></span>
+                    </button>
+
+                    <button @click="toggleTheme()"
+                        class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 transition-colors">
+                        <template x-if="!darkMode">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </template>
+                        <template x-if="darkMode">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </template>
+                    </button>
+
+                    <a href="login.html">
+                        <button
+                            class="bg-primary hover:bg-secondary text-white px-5 xl:px-6 py-2 rounded-full font-bold shadow-md transition active:scale-95">Login</button>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button (Visible below 1024px) -->
+                <button @click="open = !open"
+                    class="lg:hidden p-2 text-slate-600 dark:text-slate-300 focus:outline-none">
+                    <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path x-show="!open" d="M4 6h16M4 12h16m7-7H4" stroke-width="2" stroke-linecap="round"
+                            x-transition></path>
+                        <path x-show="open" d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"
+                            x-transition x-cloak></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu (Interactive Sidebar/Dropdown) -->
+        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-4" x-cloak
+            class="lg:hidden bg-white dark:bg-slate-900 border-b dark:border-slate-800 px-4 pt-2 pb-6 space-y-1 shadow-xl">
+
+            <!-- Navigation Links -->
+            <template
+                x-for="link in ['index.html', 'home2.html', 'aboutus.html', 'collection.html', 'pricing.html', 'contact.html']"
+                :key="link">
+                <a :href="link"
+                    :class="activePage === link ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
+                    class="block font-semibold py-3 px-4 transition-all capitalize"
+                    x-text="link.replace('.html', '').replace('index', 'home')"></a>
+            </template>
+
+            <!-- Actions Container -->
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div class="flex gap-3 mb-4">
+                    <button @click="toggleDir()"
+                        class="flex-1 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                        </svg>
+                        <span x-text="direction.toUpperCase()"></span>
+                    </button>
+                    <button @click="toggleTheme()"
+                        class="flex-1 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
+                        <template x-if="!darkMode">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                                    stroke-width="2"></path>
+                            </svg>
+                        </template>
+                        <template x-if="darkMode">
+                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"
+                                    stroke-width="2"></path>
+                            </svg>
+                        </template>
+                        Theme
+                    </button>
+                </div>
+
+                <a href="login.html" class="block">
+                    <button
+                        class="w-full bg-primary hover:bg-secondary text-white py-3.5 rounded-xl font-bold shadow-lg shadow-primary/20 transition-all active:scale-95">
+                        Login to Account
+                    </button>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main x-data="collectionData()" x-effect="document.body.style.overflow = isModalOpen ? 'hidden' : ''" class="bg-[#fdfaf3] dark:bg-slate-950 font-serif">
+        
+        <!-- Intro Section -->
+        <section class="relative pt-24 pb-32 overflow-hidden bg-[#f4ecd8] dark:bg-slate-900">
+            <!-- Vintage texture overlay -->
+            <div class="absolute inset-0 opacity-40 mix-blend-multiply dark:mix-blend-overlay" style="background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png'); pointer-events: none;"></div>
+            
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <p class="text-primary font-bold tracking-[0.2em] uppercase text-sm mb-4">Timeless Cartography</p>
+                <h1 class="text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-white font-serif tracking-tight">Explore Our <span class="italic text-primary">Collection</span></h1>
+                <p class="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-sans max-w-3xl mx-auto">
+                    Discover a curated selection of antique maps that capture the evolution of the world through time. From early explorations during the Age of Discovery to detailed regional cartography, each piece reflects history, artistry, and craftsmanship.
+                </p>
+                <p class="text-md text-slate-600 dark:text-slate-400 mt-6 font-sans">
+                    Browse through our collections and find a map that connects you to the past.
+                </p>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="py-12 border-y border-[#e6d9b9] dark:border-slate-800 bg-[#fbf8f1] dark:bg-slate-950/50 relative z-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <template x-for="cat in categories" :key="cat.name">
+                        <button @click="activeCategory = cat.name" 
+                            class="group p-6 rounded-xl border-2 transition-all duration-300 text-left flex flex-col items-center text-center bg-white dark:bg-slate-900 hover:shadow-xl hover:-translate-y-1"
+                            :class="activeCategory === cat.name ? 'border-primary shadow-lg ring-4 ring-primary/10' : 'border-[#e6d9b9] dark:border-slate-700 hover:border-primary/50'">
+                            <span class="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300" x-text="cat.icon"></span>
+                            <h3 class="font-bold text-slate-900 dark:text-white font-sans text-sm md:text-base mb-2" x-text="cat.name"></h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-sans hidden md:block leading-relaxed" x-text="cat.desc"></p>
+                        </button>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Collection Highlight -->
+        <section class="py-20 bg-slate-900 text-white relative overflow-hidden border-b-8 border-primary">
+            <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay" style="background-image: url('https://www.transparenttextures.com/patterns/old-map.png');"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2">
+                        <span class="inline-block py-1 px-3 border border-primary text-primary text-xs font-bold uppercase tracking-widest rounded-full mb-6 font-sans">Featured Collection</span>
+                        <h2 class="text-3xl md:text-5xl font-bold mb-6 font-serif">Rare & Notable Pieces</h2>
+                        <p class="text-slate-300 text-lg mb-8 leading-relaxed font-sans max-w-xl">
+                            Explore our handpicked selection of rare antique maps, including limited editions and historically significant works that defined eras of exploration.
+                        </p>
+                        <button @click="activeCategory = 'All'; sortBy = 'price_high'; window.scrollTo({ top: document.querySelector('.grid').offsetTop - 200, behavior: 'smooth' })" class="bg-primary hover:bg-secondary text-white px-8 py-4 rounded-full font-bold font-sans transition-all active:scale-95 shadow-lg shadow-primary/20 hover:shadow-primary/40 flex items-center gap-3">
+                            View Featured
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </button>
+                    </div>
+                    <div class="lg:w-1/2 relative w-full">
+                        <div class="aspect-w-16 aspect-h-12 sm:aspect-h-9 md:aspect-h-10 rounded-2xl overflow-hidden border-8 border-double border-[#d4af37] shadow-2xl transform sm:rotate-2 hover:rotate-0 transition-transform duration-700 bg-white p-2">
+                            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000" alt="Featured Map" class="w-full h-full object-cover sepia-[.3] hover:sepia-0 hover:scale-105 transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Grid Section -->
+        <section class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            
+            <!-- Sorting / Options Bar -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between bg-white dark:bg-slate-900 p-4 md:p-6 rounded-2xl shadow-sm border border-[#e6d9b9] dark:border-slate-800 mb-12 font-sans gap-4 lg:sticky top-24 z-30">
+                <div class="flex items-center gap-4 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
+                    <button @click="activeCategory = 'All'" 
+                        class="px-4 py-2 rounded-lg text-sm font-bold transition-colors whitespace-nowrap"
+                        :class="activeCategory === 'All' ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'">
+                        All Categories
+                    </button>
+                    <span class="text-sm text-slate-500 font-medium whitespace-nowrap" x-text="filteredMaps.length + ' Results'"></span>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+                    <!-- Filter Dropdown Placeholder -->
+                    <div class="relative group z-50">
+                        <button class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-primary transition-colors bg-slate-50 dark:bg-slate-800 px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+                            Filter by
+                        </button>
+                        <!-- Simple hover dropdown for UI demonstration -->
+                        <div class="absolute right-0 lg:right-auto mt-2 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2">
+                            <div class="px-3 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Region</div>
+                            <a href="#" class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md">Global</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md">Europe</a>
+                            <div class="px-3 py-2 mt-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Century</div>
+                            <a href="#" class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md">15th - 16th</a>
+                            <a href="#" class="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md">17th - 18th</a>
+                        </div>
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="flex items-center gap-2 flex-grow sm:flex-grow-0">
+                        <label class="text-sm font-semibold text-slate-500 hidden sm:block">Sort by:</label>
+                        <select x-model="sortBy" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full sm:w-auto p-2.5 outline-none font-semibold cursor-pointer appearance-none">
+                            <option value="newest">Newest Additions</option>
+                            <option value="oldest">Oldest (Year)</option>
+                            <option value="cartographer_asc">Cartographer: A-Z</option>
+                            <option value="cartographer_desc">Cartographer: Z-A</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div x-show="filteredMaps.length === 0" class="text-center py-20 bg-white/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700" x-cloak>
+                <div class="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2 font-serif">No maps found matching your criteria.</h3>
+                <p class="text-slate-500 font-sans mb-6">Try adjusting your filters or explore our full collection.</p>
+                <button @click="activeCategory = 'All'; sortBy = 'newest'" class="bg-primary hover:bg-secondary text-white px-6 py-2.5 rounded-full font-bold font-sans transition-colors shadow-md">Clear All Filters</button>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <template x-for="map in filteredMaps" :key="map.id">
+                    <div class="group bg-white dark:bg-slate-900 rounded-[2rem] p-4 border border-[#e6d9b9] dark:border-slate-800 shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col h-full font-sans">
+                        
+                        <!-- Vintage Frame Image Container -->
+                        <div class="relative rounded-[1.5rem] overflow-hidden bg-[#faf6ed] border-4 border-double border-[#d4af37]/60 dark:border-slate-700 p-1 mb-6 aspect-w-4 aspect-h-3 group-hover:border-primary transition-colors duration-500">
+                            <div class="relative w-full h-full overflow-hidden rounded-xl">
+                                <img :src="map.image" :alt="map.title" class="absolute inset-0 w-full h-full object-cover sepia-[.4] group-hover:sepia-0 transform group-hover:scale-110 transition-all duration-700">
+                                
+                                <!-- Hover Actions -->
+                                <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                                    <button @click="openPreview(map)" class="bg-white text-slate-900 w-12 h-12 rounded-full flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-110 shadow-xl" title="Quick Preview">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    </button>
+                                </div>
+                                <!-- Badges -->
+                                <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-slate-900 text-xs font-bold px-2 py-1 rounded shadow" x-text="map.year"></div>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex-grow flex flex-col px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold uppercase tracking-widest text-primary" x-text="map.category"></span>
+                                <span class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded" x-text="map.region"></span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2 font-serif leading-tight group-hover:text-primary transition-colors" x-text="map.title"></h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-grow leading-relaxed line-clamp-2" x-text="map.desc"></p>
+                            
+                            <!-- Bottom Row -->
+                            <div class="flex items-center justify-between pt-4 border-t border-[#e6d9b9]/50 dark:border-slate-800 mt-auto">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-slate-500 font-medium">Cartographer</span>
+                                    <span class="text-lg font-bold text-slate-900 dark:text-white truncate max-w-[150px]" x-text="map.cartographer" :title="map.cartographer"></span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <a href="#" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary text-slate-600 dark:text-slate-300 hover:text-primary transition-all shadow-sm" title="View Details">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                    </a>
+                                    <button class="bg-primary hover:bg-secondary text-white p-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95 flex items-center justify-center" title="Add to Cart">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </template>
+            </div>
+
+        </section>
+
+        <!-- Interactive Box CTA Section -->
+        <section class="py-16 md:py-24 transition-colors duration-500 overflow-hidden relative z-20">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
+                <!-- The Floating Box Container -->
+                <div class="relative group p-8 md:p-20 bg-white dark:bg-slate-900 rounded-[3rem] border border-[#e6d9b9] dark:border-slate-800 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden font-sans"
+                     x-data="{ reveal: false }" 
+                     x-intersect.once="reveal = true">
+                    
+                    <!-- Animated Background Shapes (Interactive Box Decor) -->
+                    <div class="absolute inset-0 pointer-events-none">
+                        <div class="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700"></div>
+                        <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/15 transition-colors duration-700"></div>
+                    </div>
+
+                    <!-- Content Container -->
+                    <div class="relative z-10 text-center max-w-3xl mx-auto">
+                        
+                        <!-- Animated Headline -->
+                        <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight transform transition-all duration-1000 font-serif"
+                            :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                            Find Your <span class="text-primary italic">Piece of History</span>
+                        </h2>
+                        
+                        <!-- Animated Paragraph -->
+                        <p class="text-base md:text-xl font-medium text-slate-500 dark:text-slate-400 mb-10 leading-relaxed transform transition-all duration-1000 delay-200"
+                           :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                            Whether you are a collector, history enthusiast, or interior designer, our collection offers timeless pieces that add depth and character to any space.
+                        </p>
+
+                        <!-- Interactive CTA Button Group -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 transform transition-all duration-1000 delay-400"
+                             :class="reveal ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'">
+                            
+                            <!-- Primary Button -->
+                            <button @click="activeCategory = 'All'; window.scrollTo({ top: document.querySelector('.grid').offsetTop - 200, behavior: 'smooth' })" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-primary hover:bg-secondary text-white dark:text-slate-900 px-8 py-4 md:px-10 md:py-4.5 rounded-2xl font-bold text-base md:text-lg shadow-lg shadow-primary/20 transition-all active:scale-95 group/btn">
+                                Browse All Maps
+                                <svg class="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Secondary Link -->
+                            <a href="contact.html" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 font-bold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors text-base">
+                                Contact for Assistance
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Corner Interactive Detail -->
+                    <div class="absolute top-6 right-8 opacity-10 group-hover:opacity-30 transition-opacity text-primary">
+                        <svg class="w-12 h-12 rotate-45" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Preview Modal -->
+        <div x-show="isModalOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" x-cloak>
+            <!-- Backdrop -->
+            <div x-show="isModalOpen" 
+                x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                @click="isModalOpen = false"
+                class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"></div>
+            
+            <!-- Modal Content -->
+            <div x-show="isModalOpen" 
+                x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-8 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 translate-y-8 scale-95"
+                class="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row z-10 max-h-[90vh]">
+                
+                <button @click="isModalOpen = false" class="absolute top-4 right-4 z-20 bg-white/80 hover:bg-white backdrop-blur dark:bg-slate-800/80 dark:hover:bg-slate-700 p-2 rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+
+                <!-- Image Side -->
+                <div class="w-full md:w-3/5 bg-slate-100 dark:bg-slate-950 p-4 sm:p-8 flex items-center justify-center relative overflow-hidden group min-h-[300px]">
+                    <div class="w-full h-full border-8 border-double border-[#d4af37] bg-[#faf6ed] p-2 rounded-xl shadow-xl overflow-hidden relative">
+                        <template x-if="selectedMap">
+                            <img :src="selectedMap.image" :alt="selectedMap.title" class="w-full h-full object-cover sepia-[.3] group-hover:sepia-0 transition-all duration-700 cursor-zoom-in hover:scale-125 origin-center">
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Details Side -->
+                <div class="w-full md:w-2/5 p-6 sm:p-8 md:p-10 flex flex-col font-sans overflow-y-auto max-h-[50vh] md:max-h-none">
+                    <template x-if="selectedMap">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider" x-text="selectedMap.category"></span>
+                                <span class="text-slate-500 dark:text-slate-400 text-sm font-medium flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <span x-text="selectedMap.region"></span>
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-3xl font-bold text-slate-900 dark:text-white font-serif mb-2 leading-tight" x-text="selectedMap.title"></h2>
+                            <p class="text-xl text-primary font-serif italic mb-6">Circa <span x-text="selectedMap.year"></span></p>
+                            
+                            <div class="w-12 h-1 bg-slate-200 dark:bg-slate-700 mb-6 rounded-full"></div>
+                            
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8" x-text="selectedMap.desc"></p>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-8">
+                                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
+                                    <span class="block text-xs text-slate-500 mb-1 font-semibold uppercase tracking-wider">Map Type</span>
+                                    <span class="font-bold text-slate-900 dark:text-white text-sm" x-text="selectedMap.type"></span>
+                                </div>
+                                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
+                                    <span class="block text-xs text-slate-500 mb-1 font-semibold uppercase tracking-wider">Availability</span>
+                                    <span class="font-bold text-green-600 dark:text-green-400 flex items-center gap-1 text-sm">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                        In Stock
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+                                <div class="flex items-end justify-between mb-6">
+                                    <span class="text-slate-500 font-medium">Cartographer</span>
+                                    <span class="text-2xl font-bold text-slate-900 dark:text-white" x-text="selectedMap.cartographer"></span>
+                                </div>
+                                <div class="flex gap-4">
+                                    <button class="flex-1 bg-primary hover:bg-secondary text-white py-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg shadow-primary/20 flex justify-center items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Alpine Data Script for Collection -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('collectionData', () => ({
+                activeCategory: 'All',
+                sortBy: 'newest',
+                selectedMap: null,
+                isModalOpen: false,
+                maps: [
+                    { id: 1, title: '18th-Century World Map', desc: 'Detailed world map featuring early continental boundaries and artistic compass roses. A masterpiece of cartography.', year: '1750', region: 'Global', type: 'World Map', cartographer: 'Jacques-Nicolas Bellin', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800', category: 'World Maps' },
+                    { id: 2, title: 'Venetian City Plan', desc: 'Intricate depiction of historic Venice canals, showcasing the architectural layout of the floating city during the Renaissance.', year: '1680', region: 'Europe', type: 'City Map', cartographer: 'Vincenzo Coronelli', image: 'https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 3, title: 'Atlantic Nautical Chart', desc: 'Used by sailors for early trade routes, featuring rhumb lines, soundings, and coastal navigation markers.', year: '1810', region: 'Atlantic Ocean', type: 'Nautical Chart', cartographer: 'John Seller', image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800', category: 'Nautical Charts' },
+                    { id: 4, title: 'Constellations Map', desc: 'Ancient representations of the stars and mythological figures, blending scientific observation with artistic imagination.', year: '1620', region: 'Celestial', type: 'Celestial Map', cartographer: 'Andreas Cellarius', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800', category: 'Celestial Maps' },
+                    { id: 5, title: 'Dutch Historical Atlas', desc: 'A page from a compiled historic atlas offering a comprehensive view of European geographical knowledge from the past.', year: '1705', region: 'Europe', type: 'Atlas Page', cartographer: 'Willem Blaeu', image: 'https://images.unsplash.com/photo-1503694978374-8a2fb5a0f0ce?auto=format&fit=crop&q=80&w=800', category: 'Historical Atlases' },
+                    { id: 6, title: 'Age of Discovery Map', desc: 'Showing newly discovered continents and trade routes, highlighting the expansion of human exploration across the oceans.', year: '1580', region: 'Global', type: 'World Map', cartographer: 'Abraham Ortelius', image: 'https://images.unsplash.com/photo-1580130281320-0ef0754f2bf7?auto=format&fit=crop&q=80&w=800', category: 'World Maps' },
+                    { id: 7, title: 'Victorian London Street Map', desc: 'A meticulously detailed map of Victorian London, documenting the rapid urban expansion during the Industrial Revolution.', year: '1862', region: 'Europe', type: 'City Map', cartographer: 'Edward Stanford', image: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 8, title: 'Mediterranean Portolan Chart', desc: 'A highly accurate 15th-century maritime chart used by Mediterranean merchants and navies.', year: '1490', region: 'Mediterranean', type: 'Nautical Chart', cartographer: 'Albino de Canepa', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800', category: 'Nautical Charts' },
+                    { id: 9, title: 'Ptolemaic Star Atlas', desc: 'A stunning visualization of the heavens based on Ptolemy’s ancient astronomical treatises.', year: '1540', region: 'Celestial', type: 'Celestial Map', cartographer: 'Claudius Ptolemy', image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800', category: 'Celestial Maps' },
+                    { id: 10, title: 'Colonial Americas Map', desc: 'One of the earliest detailed maps of the Americas, outlining the newly established colonial territories.', year: '1635', region: 'Americas', type: 'Regional Map', cartographer: 'Hessel Gerritsz', image: 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 11, title: 'Hemispheric Double Map', desc: 'A grand double-hemisphere map of the world adorned with intricate allegorical engravings.', year: '1690', region: 'Global', type: 'World Map', cartographer: 'Gerard Valck', image: 'https://images.unsplash.com/photo-1502485019198-a625bd53ceb7?auto=format&fit=crop&q=80&w=800', category: 'World Maps' },
+                    { id: 12, title: 'French Regional Survey', desc: 'An original page from a grand French topographical survey, displaying remarkable precision and artistry.', year: '1789', region: 'Europe', type: 'Atlas Page', cartographer: 'César-François Cassini', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800', category: 'Historical Atlases' },
+                    { id: 13, title: 'Japanese Edo Period Map', desc: 'A woodblock-printed map of Edo (modern-day Tokyo), detailing samurai estates and bustling merchant districts.', year: '1840', region: 'Asia', type: 'City Map', cartographer: 'Kuwagata Keisai', image: 'https://images.unsplash.com/photo-1544830214-e29124403332?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 14, title: 'Pacific Explorer\'s Chart', desc: 'Hand-drawn navigational chart from an 18th-century Pacific expedition, detailing newly discovered archipelagos.', year: '1775', region: 'Pacific Ocean', type: 'Nautical Chart', cartographer: 'James Cook', image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800', category: 'Nautical Charts' },
+                    { id: 15, title: 'Renaissance World Map', desc: 'A beautifully illuminated Renaissance map showcasing the limits of the known world with mythical sea creatures.', year: '1550', region: 'Global', type: 'World Map', cartographer: 'Pierre Desceliers', image: 'https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?auto=format&fit=crop&q=80&w=800', category: 'World Maps' },
+                    { id: 16, title: 'Zodiacal Star Chart', desc: 'A vivid, hand-colored engraving focusing on the twelve signs of the Zodiac across the night sky.', year: '1665', region: 'Celestial', type: 'Celestial Map', cartographer: 'Frederik de Wit', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800', category: 'Celestial Maps' },
+                    { id: 17, title: 'Holy Land Pilgrimage Map', desc: 'An illustrative map designed for pilgrims, marking holy sites and ancient trade routes across the Levant.', year: '1610', region: 'Middle East', type: 'Regional Map', cartographer: 'Christian van Adrichom', image: 'https://images.unsplash.com/photo-1503694978374-8a2fb5a0f0ce?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 18, title: 'Mercator Projection Map', desc: 'An early edition of Gerardus Mercator\'s revolutionary map, fundamental to maritime navigation.', year: '1587', region: 'Global', type: 'World Map', cartographer: 'Gerardus Mercator', image: 'https://images.unsplash.com/photo-1580130281320-0ef0754f2bf7?auto=format&fit=crop&q=80&w=800', category: 'World Maps' },
+                    { id: 19, title: 'Caribbean Pirate Map', desc: 'An authentic Spanish colonial chart of the Caribbean Sea, noting dangerous shoals and pirate hideouts.', year: '1720', region: 'Caribbean', type: 'Nautical Chart', cartographer: 'Francisco de Seixas', image: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800', category: 'Nautical Charts' },
+                    { id: 20, title: 'Parisian Architectural Plan', desc: 'A magnificent bird’s-eye view plan of Paris before the Haussmann renovations.', year: '1739', region: 'Europe', type: 'City Map', cartographer: 'Michel-Étienne Turgot', image: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 21, title: 'Lunar Surface Map', desc: 'An incredibly detailed 19th-century map of the moon\'s surface, drawn from early telescope observations.', year: '1837', region: 'Celestial', type: 'Celestial Map', cartographer: 'Wilhelm Beer', image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80&w=800', category: 'Celestial Maps' },
+                    { id: 22, title: 'Silk Road Trade Map', desc: 'A sprawling map tracing the ancient Silk Road from Europe across Asia to the Far East.', year: '1645', region: 'Asia', type: 'Regional Map', cartographer: 'Joan Blaeu', image: 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 23, title: 'Antarctic Exploration Chart', desc: 'A rare map from the early days of Antarctic exploration, showing incomplete coastlines and speculated ice shelves.', year: '1841', region: 'Antarctica', type: 'Regional Map', cartographer: 'James Clark Ross', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800', category: 'City & Regional Maps' },
+                    { id: 24, title: 'Germanic States Atlas', desc: 'A beautifully bound atlas compiling maps of the numerous Germanic states and principalities of the Holy Roman Empire.', year: '1760', region: 'Europe', type: 'Atlas Page', cartographer: 'Johann Baptist Homann', image: 'https://images.unsplash.com/photo-1502485019198-a625bd53ceb7?auto=format&fit=crop&q=80&w=800', category: 'Historical Atlases' }
+                ],
+                categories: [
+                    { name: 'World Maps', icon: '🌍', desc: 'Explore early interpretations of the globe.' },
+                    { name: 'City & Regional Maps', icon: '🏙️', desc: 'Detailed depictions of historic cities.' },
+                    { name: 'Nautical Charts', icon: '⚓', desc: 'Maps used by sailors and explorers.' },
+                    { name: 'Celestial Maps', icon: '🌌', desc: 'Ancient representations of the stars.' },
+                    { name: 'Historical Atlases', icon: '📜', desc: 'Compiled geographical knowledge.' }
+                ],
+                get filteredMaps() {
+                    let result = this.maps;
+                    if (this.activeCategory !== 'All') {
+                        result = result.filter(m => m.category === this.activeCategory);
+                    }
+                    if (this.sortBy === 'cartographer_asc') {
+                        result.sort((a, b) => a.cartographer.localeCompare(b.cartographer));
+                    } else if (this.sortBy === 'cartographer_desc') {
+                        result.sort((a, b) => b.cartographer.localeCompare(a.cartographer));
+                    } else if (this.sortBy === 'oldest') {
+                        result.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+                    } else {
+                        // newest
+                        result.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+                    }
+                    return result;
+                },
+                openPreview(map) {
+                    this.selectedMap = map;
+                    this.isModalOpen = true;
+                }
+            }))
+        });
+    </script>
+
+    <footer class="bg-white dark:bg-slate-900 pt-20 pb-10 border-t dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand -->
+                <div class="space-y-6">
+                    <a href="index.html">
+                        <div class="flex items-center gap-3 group cursor-pointer">
+                            <!-- Compass Rose Logo -->
+                            <div
+                                class="relative w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z" />
+                                    <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
+                                </svg>
+                                <!-- Decorative inner ring -->
+                                <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+                            </div>
+
+                            <!-- Text Logo -->
+                            <div class="flex flex-col leading-tight">
+                                <span
+                                    class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                                    Carto<span class="text-primary">Antique</span>
+                                </span>
+
+                            </div>
+                        </div>
+                    </a>
+                    <p class="text-sm text-slate-500">Preserving history through paper. We curate the world's most
+                        unique cartographic treasures.</p>
+                    <div class="flex gap-4">
+                        <!-- Instagram -->
+                        <a href="#"
+                            class="w-11 h-11 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 transition-all duration-300 group"
+                            aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+
+                        <!-- X (Twitter) -->
+                        <a href="#"
+                            class="w-11 h-11 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 transition-all duration-300 group"
+                            aria-label="X">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768m2.464-2.464L20 4"></path>
+                            </svg>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="#"
+                            class="w-11 h-11 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 transition-all duration-300 group"
+                            aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6">Quick Links</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm">
+                        <li><a href="index.html" class="hover:text-primary transition">Home</a></li>
+                        <li><a href="home2.html" class="hover:text-primary transition">Home 2</a></li>
+                        <li><a href="aboutus.html" class="hover:text-primary transition">About Us</a></li>
+                        <li><a href="collection.html" class="hover:text-primary transition">Collection</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6">Explore</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm">
+                        <li><a href="pricing.html" class="hover:text-primary transition">Pricing</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition">Contact</a></li>
+                        <li><a href="404.html" class="hover:text-primary transition">404 Error Page</a></li>
+                        <li><a href="comingsoon.html" class="hover:text-primary transition">Coming Soon</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="lg:col-span-1">
+                    <h3 class="font-bold text-lg mb-6">Join Our Newsletter</h3>
+                    <p class="text-sm text-slate-500 mb-4 leading-relaxed">
+                        Subscribe to receive updates on rare map arrivals and exclusive historical insights.
+                    </p>
+
+                    <div x-data="{ subscribed: false }">
+                        <!-- Subscription Form -->
+                        <form x-show="!subscribed" @submit.prevent="subscribed = true" class="space-y-3">
+                            <div class="relative">
+                                <input type="email" required placeholder="your@email.com"
+                                    class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all">
+                            </div>
+                            <button type="submit"
+                                class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-95">
+                                Subscribe Now
+                            </button>
+                        </form>
+
+                        <!-- Success Message -->
+                        <div x-show="subscribed" x-cloak
+                            class="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-center gap-3">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-sm font-semibold text-green-700 dark:text-green-400">Welcome to the
+                                archives!</span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="pt-8 border-t dark:border-slate-800 text-center text-xs text-slate-400">
+                &copy; 2026 CartoAntique. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function mapApp() {
+            return {
+                darkMode: localStorage.getItem('dark') === 'true',
+                direction: localStorage.getItem('dir') || 'ltr',
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('dark', this.darkMode);
+                },
+                toggleDir() {
+                    this.direction = this.direction === 'ltr' ? 'rtl' : 'ltr';
+                    localStorage.setItem('dir', this.direction);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
