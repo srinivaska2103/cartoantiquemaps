@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" x-data="signupApp()" :dir="direction" :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sign Up | CartoAntique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow: hidden; 
+            touch-action: none;
+        }
+        [x-cloak] { display: none !important; }
+        .signup-view { height: 100dvh; }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#EAB308',
+                        secondary: '#A16207',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 px-4 md:px-8 py-4 flex justify-between items-center bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-sm">
+         <a href="index.html">
+                                 <div class="flex items-center gap-3 group cursor-pointer">
+    <!-- Compass Rose Logo -->
+    <div class="relative w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+        </svg>
+        <!-- Decorative inner ring -->
+        <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+    </div>
+    
+    <!-- Text Logo -->
+    <div class="flex flex-col leading-tight">
+        <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+            Carto<span class="text-primary">Antique</span>
+        </span>
+      
+    </div>
+</div>
+                 </a>
+
+        <div class="flex items-center gap-2">
+            <button @click="toggleDir()" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm font-bold text-[10px] border border-slate-200 dark:border-slate-700">
+                <span x-text="direction.toUpperCase()"></span>
+            </button>
+            <button @click="toggleTheme()" class="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                <template x-if="!darkMode">
+                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2"></path></svg>
+                </template>
+                <template x-if="darkMode">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2"></path></svg>
+                </template>
+            </button>
+        </div>
+    </header>
+
+    <main class="signup-view flex flex-col justify-center items-center px-4">
+        <div class="w-full max-w-[400px] bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 p-6 md:p-10 scale-90 sm:scale-100 transition-transform">
+            
+            <div class="text-center mb-5">
+                <h1 class="text-2xl md:text-3xl font-bold mb-1">Create Account</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium">Join our global community of collectors.</p>
+            </div>
+
+            <!-- Form -->
+            <form action="#" class="space-y-3.5">
+                <!-- Full Name -->
+                <div>
+                    <label class="block text-xs font-bold mb-1 ml-1">Full Name</label>
+                    <input type="text" placeholder="John Doe" required
+                        class="w-full px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-primary outline-none text-sm transition-all">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-xs font-bold mb-1 ml-1">Email Address</label>
+                    <input type="email" placeholder="name@example.com" required
+                        class="w-full px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-primary outline-none text-sm transition-all">
+                </div>
+
+                <!-- Password -->
+                <div x-data="{ show: false }">
+                    <label class="block text-xs font-bold mb-1 ml-1">Create Password</label>
+                    <div class="relative">
+                        <input :type="show ? 'text' : 'password'" placeholder="••••••••" required
+                            class="w-full px-4 py-2 rounded-2xl bg-slate-50 dark:bg-slate-800 border-none focus:ring-2 focus:ring-primary outline-none text-sm transition-all">
+                        <button type="button" @click="show = !show" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg x-show="!show" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2"></path><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-width="2"></path></svg>
+                            <svg x-show="show" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88L4.573 4.573m0 0l14.854 14.854" stroke-width="2"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="px-1">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" required class="w-3.5 h-3.5 rounded border-slate-300 text-primary focus:ring-primary">
+                        <span class="text-[10px] font-bold text-slate-500">I agree to the <a href="#" class="text-primary hover:underline">Terms & Conditions</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded-2xl shadow-lg transition-all active:scale-95 text-sm">
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Social Signup -->
+            <div class="mt-5">
+                <div class="relative flex items-center mb-4">
+                    <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                    <span class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Or sign up with</span>
+                    <div class="flex-grow border-t border-slate-100 dark:border-slate-800"></div>
+                </div>
+
+               <div class="grid grid-cols-3 gap-3">
+    <!-- Google Button -->
+    <button class="flex items-center justify-center py-2.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95 group">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+            <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.273 0 3.191 2.691 1.245 6.655l4.021 3.11z"/>
+            <path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.035 3.147A11.998 11.998 0 0 0 12 24c3.445 0 6.19-.9 8.118-2.509l-4.078-3.478z"/>
+            <path fill="#4285F4" d="M23.49 12.275c0-.796-.073-1.563-.205-2.296H12v4.353h6.441a5.505 5.505 0 0 1-2.391 3.636l4.078 3.478C22.536 19.109 24 16.027 24 12.275z"/>
+            <path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.909 12c0-.782.136-1.536.366-2.235l-4.021-3.11A11.997 11.997 0 0 0 0 12c0 1.92.445 3.73 1.236 5.335l4.041-3.067z"/>
+        </svg>
+    </button>
+
+    <!-- Facebook Button -->
+    <button class="flex items-center justify-center py-2.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95">
+        <svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+    </button>
+
+    <!-- Apple Button -->
+    <button class="flex items-center justify-center py-2.5 border border-slate-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-apple" viewBox="0 0 16 16">
+  <path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/>
+  <path d="M11.182.008C11.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s1.52.087 2.475-1.258.762-2.391.728-2.43m3.314 11.733c-.048-.096-2.325-1.234-2.113-3.422s1.675-2.789 1.698-2.854-.597-.79-1.254-1.157a3.7 3.7 0 0 0-1.563-.434c-.108-.003-.483-.095-1.254.116-.508.139-1.653.589-1.968.607-.316.018-1.256-.522-2.267-.665-.647-.125-1.333.131-1.824.328-.49.196-1.422.754-2.074 2.237-.652 1.482-.311 3.83-.067 4.56s.625 1.924 1.273 2.796c.576.984 1.34 1.667 1.659 1.899s1.219.386 1.843.067c.502-.308 1.408-.485 1.766-.472.357.013 1.061.154 1.782.539.571.197 1.111.115 1.652-.105.541-.221 1.324-1.059 2.238-2.758q.52-1.185.473-1.282"/>
+</svg>
+    </button>
+</div>
+            </div>
+
+            <div class="mt-5 text-center">
+                <p class="text-xs font-medium text-slate-500">
+                    Already a member? <a href="login.html" class="text-primary font-bold hover:underline">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function signupApp() {
+            return {
+                darkMode: localStorage.getItem('dark') === 'true',
+                direction: localStorage.getItem('dir') || 'ltr',
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('dark', this.darkMode);
+                },
+                toggleDir() {
+                    this.direction = this.direction === 'ltr' ? 'rtl' : 'ltr';
+                    localStorage.setItem('dir', this.direction);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

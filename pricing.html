@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" x-data="mapApp()" :dir="direction" :class="{ 'dark': darkMode }">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CartoAntique | Discover the World Through Time</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        [x-cloak] { display: none !important; }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#EAB308', // Yellow-500
+                        secondary: '#A16207', // Yellow-900
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800" 
+     x-data="{ 
+        open: false, 
+        activePage: window.location.pathname.split('/').pop() || 'index.html' 
+     }">
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 md:h-20 items-center">
+            
+            <!-- Logo & Brand (Responsive sizing for 360px) -->
+            <a href="index.html" class="flex items-center gap-2 md:gap-3 group cursor-pointer shrink-0">
+                <div class="relative w-10 h-10 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>
+                        <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+                    </svg>
+                    <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+                </div>
+                
+                <div class="flex flex-col leading-tight">
+                    <span class="text-lg md:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                        Carto<span class="text-primary">Antique</span>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav (Hidden below 1024px) -->
+            <div class="hidden lg:flex items-center lg:gap-4 xl:gap-8">
+                <template x-for="link in ['index.html', 'home2.html', 'aboutus.html', 'collection.html', 'pricing.html', 'contact.html']" :key="link">
+                    <a :href="link" 
+                       :class="activePage === link ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
+                       class="font-semibold text-sm xl:text-base transition-colors duration-200 capitalize"
+                       x-text="link.replace('.html', '').replace('index', 'home')"></a>
+                </template>
+            </div>
+
+            <!-- Utility Buttons (Theme/LTR/Login) -->
+            <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+                <button @click="toggleDir()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs hover:bg-primary/10 transition-colors">
+                    <span x-text="direction === 'ltr' ? 'LTR' : 'RTL'"></span>
+                </button>
+                
+                <button @click="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 transition-colors">
+                    <template x-if="!darkMode">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </template>
+                    <template x-if="darkMode">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </template>
+                </button>
+                
+                <a href="login.html">
+                    <button class="bg-primary hover:bg-secondary text-white px-5 xl:px-6 py-2 rounded-full font-bold shadow-md transition active:scale-95">Login</button>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button (Visible below 1024px) -->
+            <button @click="open = !open" class="lg:hidden p-2 text-slate-600 dark:text-slate-300 focus:outline-none">
+                <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path x-show="!open" d="M4 6h16M4 12h16m7-7H4" stroke-width="2" stroke-linecap="round" x-transition></path>
+                    <path x-show="open" d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" x-transition x-cloak></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Nav Menu (Interactive Sidebar/Dropdown) -->
+    <div x-show="open" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-4"
+         x-cloak 
+         class="lg:hidden bg-white dark:bg-slate-900 border-b dark:border-slate-800 px-4 pt-2 pb-6 space-y-1 shadow-xl">
+        
+        <!-- Navigation Links -->
+        <template x-for="link in ['index.html', 'home2.html', 'aboutus.html', 'collection.html', 'pricing.html', 'contact.html']" :key="link">
+            <a :href="link" 
+               :class="activePage === link ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
+               class="block font-semibold py-3 px-4 transition-all capitalize"
+               x-text="link.replace('.html', '').replace('index', 'home')"></a>
+        </template>
+
+        <!-- Actions Container -->
+        <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex gap-3 mb-4">
+                <button @click="toggleDir()" class="flex-1 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    <span x-text="direction.toUpperCase()"></span>
+                </button>
+                <button @click="toggleTheme()" class="flex-1 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <template x-if="!darkMode">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2"></path></svg>
+                    </template>
+                    <template x-if="darkMode">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2"></path></svg>
+                    </template>
+                    Theme
+                </button>
+            </div>
+            
+            <a href="login.html" class="block">
+                <button class="w-full bg-primary hover:bg-secondary text-white py-3.5 rounded-xl font-bold shadow-lg shadow-primary/20 transition-all active:scale-95">
+                    Login to Account
+                </button>
+            </a>
+        </div>
+    </div>
+</nav>
+<!-- Pricing Hero Section -->
+<section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-slate-900 transition-colors duration-300">
+    
+    <!-- Hero Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?auto=format&fit=crop&q=80&w=1800" 
+             alt="Antique Map Background" 
+             class="w-full h-full object-cover opacity-30 grayscale transform scale-110 motion-safe:animate-[pulse_8s_ease-in-out_infinite]">
+        <!-- Gradient Overlay for Text Readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/40 to-slate-50 dark:to-slate-950"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="space-y-6 max-w-3xl mx-auto">
+            
+            <!-- Breadcrumb / Badge -->
+            <div class="flex justify-center">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Membership Access</span>
+                </span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight">
+                Invest in <span class="text-primary">Timeless</span> Discovery
+            </h1>
+
+            <!-- Subheading -->
+            <p class="text-lg md:text-xl text-slate-300 font-medium leading-relaxed">
+                Choose a plan that fits your archival needs. From casual browsing to museum-grade research tools, unlock the world's most unique cartographic treasures.
+            </p>
+
+            <!-- Interactive Scroll Indicator -->
+            <div class="pt-10 flex flex-col items-center gap-4 group cursor-pointer" @click="window.scrollTo({top: window.innerHeight * 0.8, behavior: 'smooth'})">
+                <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 group-hover:text-primary transition-colors">Compare Plans</p>
+                <div class="w-6 h-10 border-2 border-slate-500 group-hover:border-primary rounded-full flex justify-center p-1 transition-colors">
+                    <div class="w-1 h-2 bg-slate-500 group-hover:bg-primary rounded-full animate-bounce"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Decorative "Tear" Effect -->
+    <div class="absolute bottom-0 w-full overflow-hidden leading-none z-20">
+        <svg class="relative block w-full h-12 md:h-24 fill-slate-50 dark:fill-slate-950 transition-colors" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C58,117.26,161.07,110.15,249,95.8,300,87.48,348,76.66,321.39,56.44Z"></path>
+        </svg>
+    </div>
+</section>
+<section class="py-16 md:py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-300" x-data="{ annual: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+                Choose Your <span class="text-primary italic">Discovery Plan</span>
+            </h2>
+            
+            <!-- Plan Toggle -->
+            <div class="flex items-center justify-center gap-4">
+                <span class="text-sm font-bold" :class="!annual ? 'text-primary' : 'text-slate-400'">Monthly</span>
+                <button @click="annual = !annual" 
+                        class="relative w-14 h-7 bg-slate-200 dark:bg-slate-700 rounded-full p-1 transition-colors focus:outline-none ring-2 ring-transparent focus:ring-primary/30">
+                    <div class="w-5 h-5 bg-white dark:bg-primary rounded-full shadow-md transform transition-transform duration-300"
+                         :class="annual ? 'translate-x-7' : 'translate-x-0'"></div>
+                </button>
+                <span class="text-sm font-bold" :class="annual ? 'text-primary' : 'text-slate-400'">
+                    Yearly <span class="ml-1 text-[10px] bg-green-100 text-green-600 px-2 py-0.5 rounded-full uppercase tracking-tighter">Save 20%</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Pricing Cards: Adjusted for 3 columns on Tablet (md) and Desktop (lg) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 items-stretch">
+            
+            <!-- Tier 1: Explorer -->
+            <div class="group bg-white dark:bg-slate-800 p-6 lg:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                <h3 class="text-xl font-bold mb-2">Explorer</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">For casual history lovers.</p>
+                
+                <div class="mb-6">
+                    <span class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white" x-text="annual ? '$0' : '$0'"></span>
+                    <span class="text-slate-400 font-bold">/mo</span>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Browse Public Archives
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Standard Previews
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-400 line-through shrink-0">
+                        High-Res Downloads
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mt-auto">
+                    Start Browsing
+                </button>
+            </div>
+
+            <!-- Tier 2: Collector (Popular) -->
+            <div class="relative group bg-white dark:bg-slate-800 p-6 lg:p-10 rounded-[2.5rem] border-2 border-primary shadow-2xl shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col">
+                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg whitespace-nowrap">
+                    Most Popular
+                </div>
+                
+                <h3 class="text-xl font-bold mb-2">Collector</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">For serious enthusiasts.</p>
+                
+                <div class="mb-6">
+                    <span class="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white" x-text="annual ? '$19' : '$24'"></span>
+                    <span class="text-slate-400 font-bold">/mo</span>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Unlimited High-Res
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Rare Notifications
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        10% Print Discount
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 bg-primary text-white rounded-2xl font-bold text-sm shadow-xl shadow-primary/30 hover:bg-secondary transition-all active:scale-95 mt-auto">
+                    Become Collector
+                </button>
+            </div>
+
+            <!-- Tier 3: Archivist -->
+            <div class="group bg-white dark:bg-slate-800 p-6 lg:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                <h3 class="text-xl font-bold mb-2">Archivist</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">For institutions.</p>
+                
+                <div class="mb-6">
+                    <span class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white" x-text="annual ? '$49' : '$59'"></span>
+                    <span class="text-slate-400 font-bold">/mo</span>
+                </div>
+
+                <ul class="space-y-4 mb-8 text-sm font-medium flex-grow">
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Team Access
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Historical API
+                    </li>
+                    <li class="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                        <svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Priority Support
+                    </li>
+                </ul>
+
+                <button class="w-full py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors mt-auto">
+                    Contact Sales
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Comparison Table Section -->
+<section class="py-16 md:py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                Understanding <span class="text-primary">Value</span>
+            </h2>
+            <p class="text-slate-500 dark:text-slate-400 font-medium">Compare the differences between our curated tiers.</p>
+        </div>
+
+        <!-- Table Wrapper (Horizontal Scroll for Mobile) -->
+        <div class="relative overflow-x-auto rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-2xl">
+            <table class="w-full text-left border-collapse min-w-[600px]">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-900">
+                        <th class="p-6 text-sm font-bold uppercase tracking-widest text-slate-400 border-b dark:border-slate-800">Feature</th>
+                        <th class="p-6 text-sm font-bold uppercase tracking-widest text-primary border-b dark:border-slate-800">Prints</th>
+                        <th class="p-6 text-sm font-bold uppercase tracking-widest text-primary border-b dark:border-slate-800">Originals</th>
+                        <th class="p-6 text-sm font-bold uppercase tracking-widest text-primary border-b dark:border-slate-800">Rare Maps</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <!-- Row 1 -->
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="p-6 font-bold text-slate-900 dark:text-white">Authentic</td>
+                        <td class="p-6">
+                            <span class="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/20 text-red-500 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </span>
+                        </td>
+                        <td class="p-6">
+                            <span class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/20 text-green-500 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </span>
+                        </td>
+                        <td class="p-6">
+                            <span class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/20 text-green-500 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </span>
+                        </td>
+                    </tr>
+                    <!-- Row 2 -->
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                        <td class="p-6 font-bold text-slate-900 dark:text-white">Age</td>
+                        <td class="p-6 text-sm font-medium text-slate-500">New / Reproduction</td>
+                        <td class="p-6 text-sm font-medium text-slate-500">50 – 150 yrs</td>
+                        <td class="p-6 text-sm font-bold text-primary">200+ yrs</td>
+                    </tr>
+                    <!-- Row 3 -->
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                        <td class="p-6 font-bold text-slate-900 dark:text-white">Price Range</td>
+                        <td class="p-6 text-sm font-medium text-slate-500">Low</td>
+                        <td class="p-6 text-sm font-medium text-slate-500">Medium</td>
+                        <td class="p-6 text-sm font-bold text-slate-900 dark:text-white">High</td>
+                    </tr>
+                    <!-- Row 4 -->
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
+                        <td class="p-6 font-bold text-slate-900 dark:text-white">Investment Value</td>
+                        <td class="p-6 text-sm font-medium text-slate-500">Low</td>
+                        <td class="p-6 text-sm font-medium text-slate-500">Medium</td>
+                        <td class="p-6">
+                            <span class="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-lg uppercase">Very High</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Hint -->
+        <div class="mt-4 text-center lg:hidden">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                Swipe to compare tiers
+            </p>
+        </div>
+    </div>
+</section>
+<!-- FAQs Section -->
+<section class="py-16 md:py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                Common <span class="text-primary">Questions</span>
+            </h2>
+            <p class="text-slate-500 dark:text-slate-400 font-medium">Everything you need to know about our cartographic collection.</p>
+        </div>
+
+        <!-- Accordion Container -->
+        <div class="space-y-4" x-data="{ active: null }">
+            
+            <!-- Question 1 -->
+            <div class="group border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 rounded-3xl overflow-hidden transition-all duration-300" :class="active === 1 ? 'ring-2 ring-primary/50 shadow-xl' : 'shadow-sm'">
+                <button @click="active = active === 1 ? null : 1" class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                    <span class="font-bold text-slate-900 dark:text-white md:text-lg">Are these maps original?</span>
+                    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center transition-transform duration-300" :class="active === 1 ? 'rotate-180 bg-primary text-white' : ''">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div x-show="active === 1" x-collapse x-cloak>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                        Originals are clearly labeled and authenticated. Each piece in our premium collection comes with a signed certificate verifying its era, cartographer, and archival history.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="group border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 rounded-3xl overflow-hidden transition-all duration-300" :class="active === 2 ? 'ring-2 ring-primary/50 shadow-xl' : 'shadow-sm'">
+                <button @click="active = active === 2 ? null : 2" class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                    <span class="font-bold text-slate-900 dark:text-white md:text-lg">Do prices vary?</span>
+                    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center transition-transform duration-300" :class="active === 2 ? 'rotate-180 bg-primary text-white' : ''">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div x-show="active === 2" x-collapse x-cloak>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                        Yes, pricing is determined based on rarity, physical condition, and age. Unique hand-colored engravings from the 16th and 17th centuries typically command a higher value than 19th-century lithographs.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="group border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 rounded-3xl overflow-hidden transition-all duration-300" :class="active === 3 ? 'ring-2 ring-primary/50 shadow-xl' : 'shadow-sm'">
+                <button @click="active = active === 3 ? null : 3" class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                    <span class="font-bold text-slate-900 dark:text-white md:text-lg">Do you ship internationally?</span>
+                    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center transition-transform duration-300" :class="active === 3 ? 'rotate-180 bg-primary text-white' : ''">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div x-show="active === 3" x-collapse x-cloak>
+                    <div class="px-6 pb-6 text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+                        Yes, worldwide shipping is available. All international orders are packed in archival-grade, moisture-resistant tubes and insured for their full value to ensure safe passage to your port of destination.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-20 md:py-32 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-[3rem] md:rounded-[4rem] p-8 md:p-20 text-center shadow-2xl border border-slate-100 dark:border-slate-700">
+            
+            <!-- Interactive Background Elements -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+                <div class="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+            </div>
+
+            <div class="relative z-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6">
+                    Start Your Journey <br>
+                    <span class="text-primary">Into History</span>
+                </h2>
+                
+                <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 font-medium mb-10 leading-relaxed">
+                    The world as they knew it is waiting for you. Whether you are seeking a centerpiece for your home or a rare addition to your archive, your discovery begins here.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <!-- Browse Maps CTA -->
+                    <a href="collection.html" class="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-5 bg-primary hover:bg-secondary text-white font-bold text-lg rounded-2xl shadow-xl shadow-primary/20 transition-all active:scale-95 group">
+                        Browse Maps
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                        </svg>
+                    </a>
+
+                    <!-- Contact Expert CTA -->
+                    <a href="contact.html" class="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-5 bg-transparent border-2 border-slate-200 dark:border-slate-600 hover:border-primary hover:text-primary text-slate-700 dark:text-slate-300 font-bold text-lg rounded-2xl transition-all active:scale-95">
+                        Contact an Expert
+                    </a>
+                </div>
+
+                <!-- Subtle Trust Element -->
+                <div class="mt-12 flex flex-col items-center gap-4">
+                    <div class="flex -space-x-2">
+                        <div class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-slate-200 overflow-hidden">
+                            <img src="https://i.pravatar.cc/100?u=12" alt="Collector">
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-slate-200 overflow-hidden">
+                            <img src="https://i.pravatar.cc/100?u=24" alt="Collector">
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-slate-200 overflow-hidden">
+                            <img src="https://i.pravatar.cc/100?u=36" alt="Collector">
+                        </div>
+                        <div class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-primary flex items-center justify-center text-[10px] text-white font-bold">
+                            +2k
+                        </div>
+                    </div>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Trusted by collectors in 40+ countries</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="bg-white dark:bg-slate-900 pt-20 pb-10 border-t dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand -->
+                <div class="space-y-6">
+                    <a href="index.html">
+                                 <div class="flex items-center gap-3 group cursor-pointer">
+    <!-- Compass Rose Logo -->
+    <div class="relative w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>
+            <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+        </svg>
+        <!-- Decorative inner ring -->
+        <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+    </div>
+    
+    <!-- Text Logo -->
+    <div class="flex flex-col leading-tight">
+        <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+            Carto<span class="text-primary">Antique</span>
+        </span>
+      
+    </div>
+</div>
+                 </a>
+                    <p class="text-sm text-slate-500">Preserving history through paper. We curate the world's most unique cartographic treasures.</p>
+                  <div class="flex gap-4">
+    <!-- Instagram -->
+    <a href="#" class="w-11 h-11 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 transition-all duration-300 group" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+    </a>
+
+    <!-- X (Twitter) -->
+    <a href="#" class="w-11 h-11 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 transition-all duration-300 group" aria-label="X">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768m2.464-2.464L20 4"></path>
+        </svg>
+    </a>
+
+    <!-- Facebook -->
+    <a href="#" class="w-11 h-11 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-1 transition-all duration-300 group" aria-label="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+        </svg>
+    </a>
+</div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6">Quick Links</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm">
+                        <li><a href="index.html" class="hover:text-primary transition">Home</a></li>
+                        <li><a href="home2.html" class="hover:text-primary transition">Home 2</a></li>
+                        <li><a href="aboutus.html" class="hover:text-primary transition">About Us</a></li>
+                        <li><a href="collection.html" class="hover:text-primary transition">Collection</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h3 class="font-bold text-lg mb-6">Explore</h3>
+                    <ul class="space-y-3 text-slate-500 text-sm">
+                        <li><a href="pricing.html" class="hover:text-primary transition">Pricing</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition">Contact</a></li>
+                        <li><a href="404.html" class="hover:text-primary transition">404 Error Page</a></li>
+                        <li><a href="comingsoon.html" class="hover:text-primary transition">Coming Soon</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="lg:col-span-1">
+    <h3 class="font-bold text-lg mb-6">Join Our Newsletter</h3>
+    <p class="text-sm text-slate-500 mb-4 leading-relaxed">
+        Subscribe to receive updates on rare map arrivals and exclusive historical insights.
+    </p>
+    
+    <div x-data="{ subscribed: false }">
+        <!-- Subscription Form -->
+        <form x-show="!subscribed" @submit.prevent="subscribed = true" class="space-y-3">
+            <div class="relative">
+                <input 
+                    type="email" 
+                    required
+                    placeholder="your@email.com" 
+                    class="w-full px-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
+                >
+            </div>
+            <button 
+                type="submit" 
+                class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-95"
+            >
+                Subscribe Now
+            </button>
+        </form>
+
+        <!-- Success Message -->
+        <div x-show="subscribed" x-cloak class="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-center gap-3">
+            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-sm font-semibold text-green-700 dark:text-green-400">Welcome to the archives!</span>
+        </div>
+    </div>
+    
+   
+</div>
+            </div>
+            <div class="pt-8 border-t dark:border-slate-800 text-center text-xs text-slate-400">
+                &copy; 2026 CartoAntique. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function mapApp() {
+            return {
+                darkMode: localStorage.getItem('dark') === 'true',
+                direction: localStorage.getItem('dir') || 'ltr',
+                toggleTheme() {
+                    this.darkMode = !this.darkMode;
+                    localStorage.setItem('dark', this.darkMode);
+                },
+                toggleDir() {
+                    this.direction = this.direction === 'ltr' ? 'rtl' : 'ltr';
+                    localStorage.setItem('dir', this.direction);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

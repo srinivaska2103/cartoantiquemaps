@@ -26,222 +26,175 @@
     </script>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
-
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800" x-data="{ open: false }">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800" 
+     x-data="{ 
+        open: false, 
+        activePage: window.location.pathname.split('/').pop() || 'index.html' 
+     }">
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 md:h-20 items-center">
+            
+            <!-- Logo & Brand (Responsive sizing for 360px) -->
+            <a href="index.html" class="flex items-center gap-2 md:gap-3 group cursor-pointer shrink-0">
+                <div class="relative w-10 h-10 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>
+                        <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+                    </svg>
+                    <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
+                </div>
                 
-                <!-- Logo & Brand -->
-                 <a href="index.html">
-                                 <div class="flex items-center gap-3 group cursor-pointer">
-    <!-- Compass Rose Logo -->
-    <div class="relative w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 transform group-hover:rotate-12 transition-transform duration-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/>
-            <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
-        </svg>
-        <!-- Decorative inner ring -->
-        <div class="absolute inset-1 border border-white/30 rounded-lg"></div>
-    </div>
-    
-    <!-- Text Logo -->
-    <div class="flex flex-col leading-tight">
-        <span class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-            Carto<span class="text-primary">Antique</span>
-        </span>
-      
-    </div>
-</div>
-                 </a>
-   
+                <div class="flex flex-col leading-tight">
+                    <span class="text-lg md:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                        Carto<span class="text-primary">Antique</span>
+                    </span>
+                </div>
+            </a>
 
-                <!-- Desktop Nav -->
-    <div class="hidden lg:flex items-center lg:gap-4 xl:gap-8" x-data="{ activePage: window.location.pathname.split('/').pop() || 'index.html' }">
-    
-    <!-- Navigation Links -->
-    <a href="index.html" 
-       :class="activePage === 'index.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-       class="font-semibold text-sm xl:text-base transition-colors duration-200">Home</a>
-    
-    <a href="home2.html" 
-       :class="activePage === 'home2.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-       class="font-semibold text-sm xl:text-base transition-colors duration-200">Home2</a>
-    
-    <a href="aboutus.html" 
-       :class="activePage === 'aboutus.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-       class="font-semibold text-sm xl:text-base transition-colors duration-200">About Us</a>
-    
-    <a href="collection.html" 
-       :class="activePage === 'collection.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-       class="font-semibold text-sm xl:text-base transition-colors duration-200">Collection</a>
-    
-    <a href="pricing.html" 
-       :class="activePage === 'pricing.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-       class="font-semibold text-sm xl:text-base transition-colors duration-200">Pricing</a>
-    
-    <a href="contact.html" 
-       :class="activePage === 'contact.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-       class="font-semibold text-sm xl:text-base transition-colors duration-200">Contact</a>
+            <!-- Desktop Nav (Hidden below 1024px) -->
+            <div class="hidden lg:flex items-center lg:gap-4 xl:gap-8">
+                <template x-for="link in ['index.html', 'home2.html', 'aboutus.html', 'collection.html', 'pricing.html', 'contact.html']" :key="link">
+                    <a :href="link" 
+                       :class="activePage === link ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
+                       class="font-semibold text-sm xl:text-base transition-colors duration-200 capitalize"
+                       x-text="link.replace('.html', '').replace('index', 'home')"></a>
+                </template>
+            </div>
 
-    <!-- Dashboard Dropdown -->
-    <div class="relative" x-data="{ dOpen: false }" @click.away="dOpen = false">
-        <button @click="dOpen = !dOpen" 
-                :class="activePage === 'user.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300 hover:text-primary'"
-                class="flex items-center gap-1 font-semibold text-sm xl:text-base transition-all">
-            Dashboard
-            <svg class="w-4 h-4 transform transition-transform duration-300" :class="dOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </button>
+            <!-- Utility Buttons (Theme/LTR/Login) -->
+            <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+                <button @click="toggleDir()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs hover:bg-primary/10 transition-colors">
+                    <span x-text="direction === 'ltr' ? 'LTR' : 'RTL'"></span>
+                </button>
+                
+                <button @click="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 transition-colors">
+                    <template x-if="!darkMode">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </template>
+                    <template x-if="darkMode">
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </template>
+                </button>
+                
+                <a href="login.html">
+                    <button class="bg-primary hover:bg-secondary text-white px-5 xl:px-6 py-2 rounded-full font-bold shadow-md transition active:scale-95">Login</button>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button (Visible below 1024px) -->
+            <button @click="open = !open" class="lg:hidden p-2 text-slate-600 dark:text-slate-300 focus:outline-none">
+                <svg class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path x-show="!open" d="M4 6h16M4 12h16m7-7H4" stroke-width="2" stroke-linecap="round" x-transition></path>
+                    <path x-show="open" d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" x-transition x-cloak></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Nav Menu (Interactive Sidebar/Dropdown) -->
+    <div x-show="open" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-4"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-4"
+         x-cloak 
+         class="lg:hidden bg-white dark:bg-slate-900 border-b dark:border-slate-800 px-4 pt-2 pb-6 space-y-1 shadow-xl">
         
-        <!-- Dropdown Menu -->
-        <div x-show="dOpen" 
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 translate-y-1 scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-             x-cloak 
-             class="absolute right-0 mt-3 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl py-2 z-50">
-            <a href="user.html" 
-               :class="activePage === 'user.html' ? 'bg-primary/10 text-primary' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'"
-               class="block px-4 py-2.5 text-sm font-semibold transition-colors">
-               User Profile
+        <!-- Navigation Links -->
+        <template x-for="link in ['index.html', 'home2.html', 'aboutus.html', 'collection.html', 'pricing.html', 'contact.html']" :key="link">
+            <a :href="link" 
+               :class="activePage === link ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
+               class="block font-semibold py-3 px-4 transition-all capitalize"
+               x-text="link.replace('.html', '').replace('index', 'home')"></a>
+        </template>
+
+        <!-- Actions Container -->
+        <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex gap-3 mb-4">
+                <button @click="toggleDir()" class="flex-1 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                    <span x-text="direction.toUpperCase()"></span>
+                </button>
+                <button @click="toggleTheme()" class="flex-1 p-3 bg-slate-50 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <template x-if="!darkMode">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2"></path></svg>
+                    </template>
+                    <template x-if="darkMode">
+                        <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2"></path></svg>
+                    </template>
+                    Theme
+                </button>
+            </div>
+            
+            <a href="login.html" class="block">
+                <button class="w-full bg-primary hover:bg-secondary text-white py-3.5 rounded-xl font-bold shadow-lg shadow-primary/20 transition-all active:scale-95">
+                    Login to Account
+                </button>
             </a>
         </div>
     </div>
-</div>
-
-                <!-- Utility Buttons (Theme/LTR/Login) -->
-                <div class="hidden lg:flex items-center gap-3">
-                    <button @click="toggleDir()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs">
-                        <span x-text="direction === 'ltr' ? 'LTR' : 'RTL'"></span>
-                    </button>
-                    <button @click="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
-                        <template x-if="!darkMode">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                        </template>
-                        <template x-if="darkMode">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"></path></svg>
-                        </template>
-                    </button>
-                    <a href="login.html">
-                      <button class="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-full font-bold shadow-md transition">Login</button>
-
-                    </a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button @click="open = !open" class="lg:hidden p-2 text-slate-600 dark:text-slate-300">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!open" d="M4 6h16M4 12h16m7-7H4" stroke-width="2" stroke-linecap="round"></path>
-                        <path x-show="open" d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Nav Menu -->
-       <div x-show="open" 
-     x-cloak 
-     x-data="{ activePage: window.location.pathname.split('/').pop() || 'index.html' }"
-     class="lg:hidden bg-white dark:bg-slate-900 border-b dark:border-slate-800 px-4 pt-2 pb-6 space-y-1">
-    
-    <!-- Navigation Links -->
-    <a href="index.html" 
-       :class="activePage === 'index.html' ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
-       class="block font-semibold py-3 px-2 transition-all">Home</a>
-
-    <a href="home2.html" 
-       :class="activePage === 'home2.html' ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
-       class="block font-semibold py-3 px-2 transition-all">Home2</a>
-
-    <a href="aboutus.html" 
-       :class="activePage === 'aboutus.html' ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
-       class="block font-semibold py-3 px-2 transition-all">About Us</a>
-
-    <a href="collection.html" 
-       :class="activePage === 'collection.html' ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
-       class="block font-semibold py-3 px-2 transition-all">Collection</a>
-
-    <a href="pricing.html" 
-       :class="activePage === 'pricing.html' ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
-       class="block font-semibold py-3 px-2 transition-all">Pricing</a>
-
-    <a href="contact.html" 
-       :class="activePage === 'contact.html' ? 'text-primary bg-primary/5 border-l-4 border-primary' : 'text-slate-600 dark:text-slate-300'"
-       class="block font-semibold py-3 px-2 transition-all">Contact</a>
-
-    <!-- Dashboard Dropdown -->
-    <div x-data="{ mDash: activePage === 'user.html' }">
-        <button @click="mDash = !mDash" 
-                :class="activePage === 'user.html' ? 'text-primary' : 'text-slate-600 dark:text-slate-300'"
-                class="flex items-center justify-between w-full font-semibold py-3 px-2">
-            Dashboard 
-            <svg class="w-4 h-4 transition-transform" :class="mDash ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </button>
-        <div x-show="mDash" x-collapse class="pl-6 space-y-1 py-1">
-            <a href="user.html" 
-               :class="activePage === 'user.html' ? 'text-primary font-bold' : 'text-slate-500'"
-               class="block py-2 text-sm">User Profile</a>
-        </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="flex gap-4 pt-6">
-        <button @click="toggleDir()" class="flex-1 p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-            <span x-text="direction.toUpperCase()"></span>
-        </button>
-        <button @click="toggleTheme()" class="flex-1 p-3 bg-slate-100 dark:bg-slate-800 rounded-xl text-center font-bold text-sm flex items-center justify-center gap-2">
-            <template x-if="!darkMode">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2"></path></svg>
-            </template>
-            <template x-if="darkMode">
-                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707" stroke-width="2"></path></svg>
-            </template>
-            Theme
-        </button>
-    </div>
-    
-    <div class="pt-2">
-        <a href="login.html">
-            <button class="w-full bg-primary hover:bg-secondary text-white py-4 rounded-xl font-bold shadow-lg transition-all active:scale-95">
-            Login to Account
-        </button>
-        </a>
-        
-    </div>
-</div>
-    </nav>
+</nav>
 
     <!-- Hero Section -->
-    <header class="relative overflow-hidden pt-16 pb-32">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-3xl mx-auto">
-                <span class="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-widest text-secondary bg-primary/20 rounded-full uppercase">Est. 1892</span>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-                    Discover the <span class="text-primary">World</span> Through Time
-                </h1>
-                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 font-medium">
-                    Explore rare and authentic antique maps that tell stories of exploration, history, and artistry.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button class="w-full sm:w-auto bg-primary text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-transform">
+    <!-- Hero Section with Responsive Background -->
+<header class="relative min-h-[80vh] md:min-h-screen flex items-center overflow-hidden pt-20 pb-20 md:pt-32 md:pb-40 bg-slate-900">
+    
+    <!-- Background Image Layer -->
+    <div class="absolute inset-0 z-0">
+        <img src="assets/indexhero" 
+             alt="Antique World Map" 
+             class="w-full h-full object-cover opacity-40 grayscale group-hover:grayscale-0 transition-all duration-1000">
+        
+        <!-- Subtle Gradient Overlays for Readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/40 to-slate-900/80"></div>
+        <div class="absolute inset-0 bg-radial-gradient(circle, transparent 20%, #0f172a 100%) opacity-60"></div>
+    </div>
+
+    <!-- Content Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="text-center max-w-4xl mx-auto">
+            
+            <!-- Establish Date Badge -->
+            <div class="inline-block px-5 py-2 mb-8 text-xs md:text-sm font-bold tracking-[0.3em] text-primary bg-primary/10 border border-primary/20 rounded-full uppercase backdrop-blur-md">
+                Established 1892
+            </div>
+
+            <!-- Main Title (Responsive Sizes) -->
+            <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-white">
+                Discover the <span class="text-primary">World</span> <br class="hidden md:block"> Through Time
+            </h1>
+
+            <!-- Paragraph -->
+            <p class="text-base sm:text-lg md:text-xl text-slate-300 mb-12 font-medium max-w-2xl mx-auto leading-relaxed">
+                Explore rare and authentic antique maps that tell stories of exploration, history, and artistry. Every piece is a unique window into the past.
+            </p>
+
+            <!-- Buttons (Stack on 360px, Side-by-side on Mobile+) -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
+                <a href="collection.html" class="w-full sm:w-auto">
+                    <button class="w-full sm:w-auto bg-primary hover:bg-secondary text-white px-10 py-5 rounded-full font-bold text-lg shadow-2xl shadow-primary/30 transition-all active:scale-95 flex items-center justify-center gap-2">
                         Browse Collection
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </button>
-                    <button class="w-full sm:w-auto border-2 border-slate-200 dark:border-slate-800 px-8 py-4 rounded-full font-bold text-lg hover:bg-white dark:hover:bg-slate-800 transition">
+                </a>
+                
+                <a href="comingsoon.html" class="w-full sm:w-auto">
+                    <button class="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border-2 border-white/20 px-10 py-5 rounded-full font-bold text-lg transition-all backdrop-blur-md active:scale-95">
                         Shop by Region
                     </button>
-                </div>
+                </a>
             </div>
         </div>
-        
-        <!-- Decorative Map Element -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10"></div>
-    </header>
+    </div>
+
+    <!-- Bottom Decorative "Vignette" -->
+    <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
+</header>
 
     <!-- Intro Section -->
 <section class="py-16 md:py-24 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-300">
@@ -292,7 +245,7 @@
             <div class="w-full lg:w-1/2 order-1 lg:order-2">
                 <div class="relative group cursor-crosshair overflow-hidden rounded-3xl bg-slate-100 dark:bg-slate-900 shadow-2xl">
                     <!-- Main Image -->
-                    <img src="https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?auto=format&fit=crop&q=80&w=1000" 
+                    <img src="assets/vintagemap" 
                          alt="Vintage Map Detail" 
                          class="w-full h-[300px] sm:h-[450px] object-cover transition-transform duration-700 group-hover:scale-110">
                     
@@ -336,10 +289,10 @@
             
             <!-- World Maps -->
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer h-80">
-                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=600" alt="World Maps" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="assets/worldmap" alt="World Maps" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
-                    <span class="text-3xl mb-3 block">🌍</span>
+                    
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider">World Maps</h3>
                     <p class="text-primary text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">View 120+ Items →</p>
                 </div>
@@ -347,10 +300,10 @@
 
             <!-- City & Town Maps -->
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer h-80">
-                <img src="https://images.unsplash.com/photo-1467226632440-65f0b495746d?auto=format&fit=crop&q=80&w=600" alt="City Maps" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="assets/citymap" alt="City Maps" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
-                    <span class="text-3xl mb-3 block">🏙️</span>
+                    
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider">City & Town</h3>
                     <p class="text-primary text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">Explore Urban History →</p>
                 </div>
@@ -358,10 +311,10 @@
 
             <!-- Nautical Charts -->
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer h-80">
-                <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?auto=format&fit=crop&q=80&w=600" alt="Nautical Charts" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="assets/Nautical Charts" alt="Nautical Charts" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
-                    <span class="text-3xl mb-3 block">⚓</span>
+                    
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider">Nautical</h3>
                     <p class="text-primary text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">Sail the High Seas →</p>
                 </div>
@@ -369,10 +322,10 @@
 
             <!-- Celestial Maps -->
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer h-80">
-                <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bcc0?auto=format&fit=crop&q=80&w=600" alt="Celestial Maps" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="assets/nauticalmap" alt="Celestial Maps" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
-                    <span class="text-3xl mb-3 block">🌌</span>
+                   
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider">Celestial</h3>
                     <p class="text-primary text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">Chart the Stars →</p>
                 </div>
@@ -380,10 +333,10 @@
 
             <!-- Historical Atlases -->
             <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer h-80 sm:col-span-2 xl:col-span-1">
-                <img src="https://images.unsplash.com/photo-1544822681-39f5bb4a03c5?auto=format&fit=crop&q=80&w=600" alt="Atlases" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <img src="assets/Atlases" alt="Atlases" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                 <div class="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-500 group-hover:-translate-y-2">
-                    <span class="text-3xl mb-3 block">🏛️</span>
+                    
                     <h3 class="text-xl font-bold text-white uppercase tracking-wider">Atlases</h3>
                     <p class="text-primary text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500 mt-2">Bound Histories →</p>
                 </div>
@@ -461,7 +414,7 @@
                 </div>
                 <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Expert Guidance</h3>
                 <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                    We help both beginners and seasoned collectors understand, appraise, and choose the perfect map for their space.
+                    We help both beginners and seasoned collectors understand, appraise,perfect map for space.
                 </p>
                 <div class="absolute bottom-0 left-0 h-1 w-0 bg-primary group-hover:w-full transition-all duration-500 rounded-b-3xl"></div>
             </div>
@@ -496,7 +449,7 @@
             <!-- Product 1 -->
             <div class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
                 <div class="relative h-72 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1548345666-a57139a4dd1c?auto=format&fit=crop&q=80&w=800" 
+                    <img src="assets/17th Century World Map" 
                          alt="17th Century World Map" 
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     
@@ -528,7 +481,7 @@
             <!-- Product 2 -->
             <div class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
                 <div class="relative h-72 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&q=80&w=800" 
+                    <img src="assets/Celestial Chart" 
                          alt="Celestial Chart" 
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     
@@ -558,7 +511,7 @@
             <!-- Product 3 -->
             <div class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 sm:col-span-2 lg:col-span-1">
                 <div class="relative h-72 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&q=80&w=800" 
+                    <img src="assets/nautical Chart" 
                          alt="Nautical Chart" 
                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                     
@@ -604,7 +557,7 @@
                 <div class="relative">
                     <!-- Main Artistic Image -->
                     <div class="relative z-10 overflow-hidden rounded-[2rem] border-8 border-slate-800 shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?auto=format&fit=crop&q=80&w=1000" 
+                        <img src="assets/detail" 
                              alt="Antique Map Detail" 
                              class="w-full h-[400px] lg:h-[600px] object-cover filter sepia-[0.3] group-hover:sepia-0 transition-all duration-1000 group-hover:scale-105">
                         
@@ -690,7 +643,7 @@
                     
                     <div class="flex items-center gap-4 mt-auto">
                         <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150" alt="Collector" class="w-full h-full object-cover">
+                            <img src="assets/t1" alt="Collector" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-slate-900 dark:text-white">James Arrington</h4>
@@ -714,7 +667,7 @@
                     
                     <div class="flex items-center gap-4 mt-auto">
                         <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/30 group-hover:border-primary transition-colors">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150" alt="Collector" class="w-full h-full object-cover">
+                            <img src="assets/t2" alt="Collector" class="w-full h-full object-cover">
                         </div>
                         <div>
                             <h4 class="font-bold text-slate-900 dark:text-white">Elena Rodriguez</h4>
@@ -893,14 +846,7 @@
                         </a>
                     </div>
                     
-                    <div class="mt-10 flex items-center justify-center lg:justify-start gap-6 opacity-60">
-                        <div class="flex -space-x-3">
-                            <img class="w-10 h-10 rounded-full border-2 border-slate-900" src="https://i.pravatar.cc/100?u=1" alt="User">
-                            <img class="w-10 h-10 rounded-full border-2 border-slate-900" src="https://i.pravatar.cc/100?u=2" alt="User">
-                            <img class="w-10 h-10 rounded-full border-2 border-slate-900" src="https://i.pravatar.cc/100?u=3" alt="User">
-                        </div>
-                        <p class="text-sm text-slate-300 font-bold">5,000+ Collectors Joined</p>
-                    </div>
+                   
                 </div>
 
                 <!-- Image Side (Interactive Map Graphic) -->
